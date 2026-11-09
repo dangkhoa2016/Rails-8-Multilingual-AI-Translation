@@ -1,0 +1,8 @@
+development:
+  adapter: async
+test:
+  adapter: test
+production:
+  # Shared LISTEN/NOTIFY across Puma and the separate Solid Queue process.
+  # Broadcast only small wake-up signals (PostgreSQL NOTIFY has an 8 KB limit).
+  adapter: postgresql

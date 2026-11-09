@@ -1,0 +1,49 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+
+development:
+  primary:
+    <<: *default
+    database: multilingual_translation_workspace_development
+    url: <%= ENV["DATABASE_URL"] %>
+  queue:
+    <<: *default
+    database: multilingual_translation_workspace_development_queue
+    url: <%= ENV["QUEUE_DATABASE_URL"] %>
+    migrations_paths: db/queue_migrate
+  cache:
+    <<: *default
+    database: multilingual_translation_workspace_development_cache
+    url: <%= ENV["CACHE_DATABASE_URL"] %>
+    migrations_paths: db/cache_migrate
+
+test:
+  primary:
+    <<: *default
+    database: multilingual_translation_workspace_test
+    url: <%= ENV["DATABASE_URL"] %>
+  queue:
+    <<: *default
+    database: multilingual_translation_workspace_test_queue
+    url: <%= ENV["QUEUE_DATABASE_URL"] %>
+    migrations_paths: db/queue_migrate
+  cache:
+    <<: *default
+    database: multilingual_translation_workspace_test_cache
+    url: <%= ENV["CACHE_DATABASE_URL"] %>
+    migrations_paths: db/cache_migrate
+
+production:
+  primary:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+  queue:
+    <<: *default
+    url: <%= ENV["QUEUE_DATABASE_URL"] %>
+    migrations_paths: db/queue_migrate
+  cache:
+    <<: *default
+    url: <%= ENV["CACHE_DATABASE_URL"] %>
+    migrations_paths: db/cache_migrate
