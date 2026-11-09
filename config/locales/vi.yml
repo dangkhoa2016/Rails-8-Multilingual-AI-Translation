@@ -1,0 +1,557 @@
+vi:
+  layout:
+    dashboard: "Tổng quan"
+    breadcrumb: "Điều hướng trang"
+    open_navigation: "Mở điều hướng"
+    close_navigation: "Đóng điều hướng"
+    collapse_sidebar: "Thu gọn thanh bên"
+    footer_status: "Không gian quản trị"
+    workspace_nav: "Không gian làm việc"
+    administration_nav: "Quản trị"
+    account_role: "Quản trị viên"
+    private_workspace: "Không gian AI riêng tư"
+    private_workspace_description: "Thông tin nhà cung cấp, khóa API và lịch sử so sánh bản dịch được bảo vệ bằng xác thực quản trị."
+    product_overline: "Nền tảng dịch thuật AI"
+    footer_status: "Không gian ứng dụng"
+    preference_error: "Không thể lưu tùy chọn. Vui lòng thử lại."
+    welcome_badge: "Dịch thuật AI đa mô hình"
+    models_available: "Mô hình dịch"
+    start_translation: "Bắt đầu dịch"
+    manage_connections: "Quản lý kết nối"
+    history_empty_title: "Chưa có bản dịch nào"
+    history_empty_description: "Hãy thực hiện một bản dịch để xem kết quả so sánh và lịch sử tại đây."
+    security_summary: "Không gian quản trị được bảo vệ"
+    translation_step_source: "Nhập văn bản"
+    translation_step_models: "Chọn mô hình AI"
+    translation_step_results: "So sánh bản dịch"
+    auth_secure_label: "Truy cập quản trị an toàn"
+    connections_ready: "Kết nối đã cấu hình"
+    title: Không gian dịch thuật đa ngôn ngữ
+    brand: Không gian dịch thuật
+    translate: Dịch văn bản
+    history: Lịch sử
+    settings: Cài đặt hệ thống
+    sign_out: Đăng xuất
+    language: Ngôn ngữ giao diện
+    theme: Giao diện
+    light: Sáng
+    dark: Tối
+    auto: Tự động (hệ thống)
+  dashboard:
+    title: Tổng quan không gian làm việc
+    eyebrow: "KHÔNG GIAN AI CỦA BẠN"
+    intro: "Quản lý các phiên dịch đa ngôn ngữ, so sánh phản hồi của model và theo dõi hoạt động gần đây tại một nơi. Trang tổng quan không gọi tới nhà cung cấp inference."
+    new_translation: Tạo bản dịch
+    view_history: Xem lịch sử
+    activity_eyebrow: "HOẠT ĐỘNG DỊCH THUẬT"
+    overview: Tổng quan
+    db_only: Thống kê từ database · không gọi GPU
+    total_sessions: Phiên dịch
+    total_sessions_note: Đã tạo trong không gian của bạn
+    ready_models: Model đã cấu hình
+    ready_models_note: Deployment có kết nối hợp lệ
+    completed_runs: Lượt dịch hoàn tất
+    completed_runs_note: Kết quả model đã ghi nhận
+    needs_attention: Cần chú ý
+    needs_attention_note: Phiên lỗi, lỗi một phần hoặc chưa rõ kết quả
+    recent_activity: Các bản dịch gần đây
+    recent_description: "Sáu phiên dịch mới nhất; không hiển thị văn bản gốc tại Dashboard."
+    view_all: Xem tất cả
+    session_number: "Phiên %{number}"
+    empty_title: Không gian làm việc đã sẵn sàng
+    empty_description: "Bắt đầu dịch để xem hoạt động và kết quả so sánh tại đây."
+    setup_eyebrow: "BẮT ĐẦU NHANH"
+    get_started: Bắt đầu trong ba bước
+    setup_description: "Kết nối nhà cung cấp và chọn các model sẽ sử dụng."
+    step_connect: Cấu hình nhà cung cấp
+    step_connect_description: "Nhập endpoint và thông tin xác thực trong Cài đặt hệ thống."
+    step_assign: Gán deployment cho model
+    step_assign_description: "Liên kết những AI model bạn chọn với nhà cung cấp."
+    step_compare: Dịch và so sánh
+    step_compare_description: "Chỉ gửi yêu cầu sau khi xem cảnh báo về chi phí inference."
+    no_ready_models: "Chưa có model nào được cấu hình để dịch."
+    configure_models: Mở Cài đặt hệ thống
+    models_eyebrow: "DANH MỤC MODEL"
+    models_title: Các model có thể cấu hình
+    models_description: "Trạng thái dưới đây lấy từ database, không phải kiểm tra GPU trực tiếp."
+    manage_models: Quản lý deployment
+    configured: Đã cấu hình
+    not_configured: Chưa cấu hình
+    no_provider: Chưa gán nhà cung cấp
+    readiness_disclaimer: "Đã cấu hình nghĩa là model có kết nối đang bật và credential đã lưu. Điều này không xác nhận GPU đang chạy hoặc dịch thành công."
+  auth:
+    story_kicker: "KHÔNG GIAN DỊCH THUẬT AI"
+    story_heading: "So sánh nhiều bản dịch AI trong một không gian làm việc."
+    story_description: "Quản lý các nhà cung cấp do bạn lựa chọn, xem phản hồi của từng model và lưu lịch sử dịch để đối chiếu."
+    story_compare: "Lựa chọn nhiều model để so sánh"
+    story_compare_description: "Chọn từ một đến bốn model đã cấu hình cho mỗi yêu cầu dịch."
+    story_choose: "Đánh giá và chọn bản dịch ưu tiên"
+    story_choose_description: "Chọn kết quả bạn muốn mà không phải gọi inference lại."
+    story_control: "Kết nối do quản trị viên cấu hình"
+    story_control_description: "Endpoint và thông tin xác thực được quản lý trong trang cài đặt bảo vệ."
+    sign_in_title: Đăng nhập quản trị
+    sign_in_description: Chỉ quản trị viên mới được truy cập lịch sử dịch và thông tin xác thực của nhà cung cấp.
+    email: Email
+    password: Mật khẩu
+    sign_in: Đăng nhập
+    signed_in: Đăng nhập thành công
+    signed_out: Đã đăng xuất
+    invalid_credentials: Email hoặc mật khẩu không hợp lệ
+    too_many_attempts: Quá nhiều lần thử. Vui lòng thử lại sau.
+    admin_required: Vui lòng đăng nhập bằng tài khoản quản trị
+    reauthentication_required: Cần xác nhận lại mật khẩu trước khi thay đổi cài đặt nhạy cảm. Thay đổi vừa rồi chưa được lưu.
+    reauthentication_title: Xác nhận danh tính
+    reauthentication_description: Vì lý do bảo mật, hãy xác nhận mật khẩu để quản lý endpoint và token API.
+    verify_password: Xác nhận mật khẩu
+    reauthenticated: Đã xác nhận danh tính. Bạn có thể chỉnh sửa cài đặt trong 10 phút.
+    too_many_attempts_title: Đã vượt giới hạn truy cập
+  common:
+    add: Thêm
+    edit: Chỉnh sửa
+    cancel: Hủy
+    save: Lưu
+    enabled: Đang bật
+    disabled: Đã tắt
+    configured: Đã cấu hình
+    not_configured: Chưa cấu hình
+    missing: Thiếu
+    not_checked: Chưa kiểm tra
+    last_checked: Lần kiểm tra cuối
+    manage_all: Quản lý tất cả
+    provider: Nhà cung cấp
+    connection: Kết nối
+    select_connection: Chọn kết nối
+    unknown: Không xác định
+    attempt: Lần thử
+    status: Trạng thái
+    created: Tạo lúc
+    models: Model
+    copy: Sao chép
+    copied: Đã sao chép
+    copy_failed: Sao chép thất bại
+    expand: Mở rộng
+    collapse: Thu gọn
+    preferred: ★ Bản dịch đã chọn
+    set_preferred: ☆ Chọn bản dịch này
+    no_provider: Chưa có nhà cung cấp
+    back_home: Về trang chính
+  workspace:
+    use_glossary: "Dùng Glossary cho lần dịch này"
+    glossary_help: "Hiện có %{count} thuật ngữ đang bật. Chỉ áp dụng với model OpenAI-compatible khi thuật ngữ khớp cặp ngôn ngữ và văn bản nguồn. Có thể tăng số token và chi phí; không bảo đảm model luôn dùng đúng từ."
+    manage_glossary: "Quản lý thuật ngữ"
+    glossary_unsupported: "Glossary chưa hỗ trợ các adapter của model đã chọn: __MODELS__. Hãy bỏ chọn các model đó hoặc tắt Glossary trước khi gửi."
+    app_length_caution: "Văn bản vượt mức an toàn %{limit} ký tự Unicode của ứng dụng. Hãy rút ngắn trước khi gửi."
+    selected_models_length_caution: "Các model đã chọn không hỗ trợ độ dài này: %{models}. Hãy rút ngắn văn bản hoặc bỏ chọn các model đó trước khi gửi. Chưa có yêu cầu inference nào được gửi."
+    model_source_limit: "Tối đa %{count} ký tự Unicode mỗi yêu cầu"
+    model_source_limit_unknown: "Giới hạn tùy nhà cung cấp; hãy kiểm tra cấu hình endpoint"
+    select_all_models: "Chọn tất cả"
+    select_all_note: "Chỉ chọn model khả dụng, tối đa 4 model mỗi yêu cầu."
+    studio_eyebrow: "KHÔNG GIAN DỊCH THUẬT"
+    no_auto_inference: "Chỉ gửi dữ liệu sau khi bạn xác nhận"
+    step_one: "BƯỚC 01 · VĂN BẢN"
+    step_two: "BƯỚC 02 · MODEL"
+    swap_languages: "Hoán đổi ngôn ngữ nguồn và đích"
+    text_privacy: "Văn bản riêng tư"
+    characters_count: "%{count} ký tự"
+    words_count: "%{count} từ"
+    source_max_length: "Độ dài được hỗ trợ tùy theo model đã chọn."
+    gateway_length_caution: "Văn bản vượt giới hạn 1.000 mã Unicode của model sử dụng Translation Gateway v1 đang chọn. Hãy rút ngắn hoặc chọn nhà cung cấp phù hợp trước khi gửi."
+    advanced_options: "Tùy chọn nâng cao"
+    model_summary: "Chọn 1–4 model đã cấu hình để so sánh phản hồi độc lập."
+    unavailable_short: "Chưa cấu hình"
+    no_ready_models: "Chưa có model nào được cấu hình. Hãy tạo kết nối và deployment trước khi dịch."
+    configure_models: "Cấu hình model"
+    confirm_before_send: "Bạn sẽ được yêu cầu xác nhận mọi chi phí inference có thể phát sinh."
+    eyebrow: Dịch thuật AI · Nhiều nhà cung cấp
+    title: Dịch và so sánh các model
+    description: Nhập nhãn ngôn ngữ bất kỳ, chọn 1–4 model và so sánh kết quả độc lập. Chỉ gửi yêu cầu inference khi bạn xác nhận.
+    source_language: Ngôn ngữ nguồn
+    target_language: Ngôn ngữ đích
+    source_placeholder: 'Ví dụ: English / en / 日本語'
+    target_placeholder: 'Ví dụ: Vietnamese / vi / Français'
+    source_text: Văn bản cần dịch
+    text_placeholder: Nhập hoặc dán văn bản…
+    text_limit_heading: "Giới hạn độ dài văn bản"
+    text_limit_gateway: "Translation Gateway v1: Tối đa %{limit} ký tự Unicode cho mỗi yêu cầu dịch."
+    text_limit_other: "Các endpoint khác: Giới hạn phụ thuộc vào giao thức và model được triển khai."
+    text_limit_note: "Hệ thống kiểm tra giới hạn đã biết của các model được chọn trước khi gửi. Hiện chưa tự động chia văn bản dài."
+    preserve_formatting: Giữ nguyên định dạng
+    preserve_formatting_help: "Yêu cầu AI giữ cấu trúc đoạn văn, xuống dòng, danh sách, placeholder và mã định danh của văn bản gốc. Đây là chỉ dẫn gửi tới model, không bảo đảm giữ nguyên định dạng tuyệt đối."
+    choose_models: Chọn model
+    selected: Đã chọn
+    configured: Đã cấu hình
+    unavailable: Chưa khả dụng hoặc đã tắt — hãy thiết lập trong Cài đặt hệ thống
+    charges_warning: Gửi yêu cầu đến endpoint có thể phát sinh phí inference.
+    charges_count: '%{count} lượt chạy model có thể phát sinh phí inference.'
+    charges_confirm: '%{count} lượt chạy model có thể phát sinh phí. Gửi ngay?'
+    invalid_model_count: Hãy chọn từ 1 đến 4 model
+    translate: Dịch văn bản
+  history:
+    glossary_applied: "Đã bật Glossary · lưu %{count} thuật ngữ phù hợp cùng phiên dịch"
+    view_options: "Tùy chọn so sánh"
+    layout_options: "Bố cục kết quả"
+    two_columns: "2 cột"
+    four_columns: "4 cột"
+    highlight_differences: "Đánh dấu khác biệt"
+    diff_explanation: "Vùng đánh dấu cho biết những dòng khác với bản dịch ưu tiên, hoặc bản hoàn tất đầu tiên nếu chưa chọn. Đây không phải điểm đánh giá chất lượng dịch. Việc so sánh không gọi inference."
+    title: Lịch sử dịch
+    description: Các phiên đã lưu có phân trang · Xem lịch sử không kích hoạt inference.
+    new: Dịch mới
+    empty: Chưa có phiên dịch nào.
+    session: Phiên dịch
+    refresh: Làm mới trạng thái (chỉ GET)
+    original: Văn bản gốc
+    results: Kết quả theo model
+    results_description: Mỗi thẻ cập nhật độc lập. Mở trang này không gửi thêm yêu cầu inference.
+    connection_label: Kết nối
+    view_selected: Xem bản dịch đã chọn
+    hide_selected: Ẩn bản dịch đã chọn
+    selected_from_model: "Bản dịch đã chọn từ %{model}"
+    preferred_explanation: "Chọn bản dịch phù hợp nhất để đánh dấu cho phiên này. Thao tác không chạy lại inference và không thay đổi các kết quả khác."
+    progress_title: "Tiến độ dịch thuật"
+    progress_count: "Đã xử lý %{processed}/%{total} model (%{percent}%)"
+    progress_breakdown: "Hoàn tất: %{completed} · Thất bại: %{failed} · Chưa xác minh: %{uncertain} · Đang xử lý: %{processing}"
+    progress_explanation: "Tiến độ là số model đã kết thúc, không phải phần trăm GPU inference. Cập nhật trạng thái không gửi yêu cầu dịch mới."
+    simulated: Kết quả mô phỏng — không phải bản dịch thực
+    unsupported: Model này chưa hỗ trợ cặp ngôn ngữ đã chọn.
+    failed: 'Yêu cầu tới model thất bại: %{error}'
+    uncertain: Chưa xác định được kết quả từ xa (%{error}). Hệ thống sẽ không tự gửi lại yêu cầu mất phí.
+    processing: Đang chờ hoặc xử lý tại nhà cung cấp…
+    unchanged_output: "Provider đã trả về đúng nguyên văn bản đầu vào. Kết quả có thể hợp lệ trong một số trường hợp; hãy kiểm tra ngôn ngữ nguồn và đích."
+    unchanged_summary: "Một số kết quả giống hệt đầu vào. Hướng dịch đã chọn: %{source} → %{target}. Trạng thái hoàn tất không đảm bảo chất lượng dịch."
+    technical_details: "Chi tiết kỹ thuật · Response, thời gian & token"
+    rails_elapsed: "Thời gian dispatch Rails quan sát (bao gồm chờ/polling)"
+    seconds_value: "%{value} giây"
+    poll_count: "Lần kiểm tra trạng thái"
+    provider_timing: "Thời gian do provider báo cáo"
+    token_usage: "Token usage do provider báo cáo"
+    resource_usage: "Thông số CPU / GPU từ provider"
+    resource_usage_note: "GPU và VRAM là số đo tại thời điểm sau inference, không phải giá trị đỉnh hay trung bình. CPU được đo cho cả tiến trình model trên nhiều lõi, nên có thể vượt 100%."
+    provider_not_reported: "Provider chưa cung cấp"
+    not_available: "Không có dữ liệu"
+    dispatch_started_at: "Bắt đầu dispatch (UTC)"
+    dispatch_resolved_at: "Hoàn tất dispatch (UTC)"
+    response_snapshot: "Bản chụp phản hồi API"
+    response_snapshot_note: "Lưu sau khi polling, được mã hóa trong database. Chỉ giữ các trường API được phép; không phải toàn bộ byte HTTP hay headers."
+    response_unavailable: "Chưa lưu phản hồi API ở lần chạy này. Trang không gọi lại provider để tái tạo."
+    locally_recorded: "Dữ liệu Rails đã lưu (không phải raw response gốc)"
+  glossary:
+    nav: "Bảng thuật ngữ"
+    title: "Bảng thuật ngữ dịch"
+    description: "Lưu cách dịch ưu tiên cho thuật ngữ thường gặp, riêng cho tài khoản quản trị của bạn."
+    privacy_title: "Thuật ngữ riêng tư"
+    privacy_note: "Nội dung thuật ngữ và ghi chú được mã hóa trong PostgreSQL. Chỉ tài khoản của bạn mới có quyền xem và chỉnh sửa."
+    adapter_note: "Glossary chỉ dùng khi người dùng bật và hiện hỗ trợ endpoint OpenAI-compatible chat. Gateway v1 chưa có trường Glossary trong hợp đồng API."
+    new: "Thêm thuật ngữ"
+    edit: "Sửa thuật ngữ"
+    delete: "Xóa"
+    delete_confirm: "Xóa thuật ngữ này? Các phiên dịch đã gửi vẫn giữ snapshot đã lưu."
+    created: "Đã thêm thuật ngữ."
+    updated: "Đã lưu thay đổi thuật ngữ."
+    deleted: "Đã xóa thuật ngữ."
+    filters: "Lọc thuật ngữ"
+    source_language: "Ngôn ngữ nguồn"
+    target_language: "Ngôn ngữ đích"
+    source_language_hint: "Ví dụ: English hoặc en"
+    target_language_hint: "Ví dụ: Vietnamese hoặc vi"
+    any_language: "Mọi ngôn ngữ"
+    status: "Trạng thái"
+    all: "Tất cả"
+    active: "Đang bật"
+    inactive: "Đã tắt"
+    apply: "Áp dụng bộ lọc"
+    clear: "Xóa bộ lọc"
+    entries: "Thuật ngữ đã lưu"
+    count: "%{count} thuật ngữ"
+    empty_title: "Chưa có thuật ngữ"
+    empty_description: "Thêm cặp thuật ngữ đầu tiên để chuẩn bị hướng dẫn dịch nhất quán."
+    no_matches: "Không có thuật ngữ phù hợp"
+    filter_hint: "Hãy thử thay đổi bộ lọc ngôn ngữ hoặc trạng thái."
+    source_term: "Thuật ngữ gốc"
+    target_term: "Cách dịch ưu tiên"
+    source_term_hint: "Ví dụ: apprenticeship"
+    target_term_hint: "Ví dụ: học nghề"
+    notes: "Ghi chú riêng (không bắt buộc)"
+    notes_hint: "Ngữ cảnh để bạn tham khảo. Ghi chú không được gửi tới AI."
+    notes_note: "Ghi chú chỉ để tham khảo; model chỉ nhận cặp thuật ngữ, không nhận ghi chú."
+    active_label: "Bật: cho phép dùng thuật ngữ này khi bật Glossary"
+    pair_matching: "Nhãn ngôn ngữ khớp không phân biệt chữ hoa/thường; hãy dùng cùng cách ghi tại Studio (ví dụ en→vi hoặc English→Vietnamese). Chỉ thuật ngữ đang bật và xuất hiện trong văn bản nguồn mới được gửi làm tham khảo."
+    save: "Lưu thuật ngữ"
+    cancel: "Hủy"
+    validation_title: "Vui lòng sửa các lỗi sau:"
+    pagination: "Phân trang bảng thuật ngữ"
+    page: "Trang %{current} / %{total}"
+    previous: "Trước"
+    next: "Sau"
+    form_description: "Chọn cặp ngôn ngữ và thuật ngữ ưu tiên. Thao tác này không chạy model AI."
+  help:
+    nav: "Trung tâm trợ giúp"
+    title: "Trung tâm trợ giúp"
+    description: "Tìm hiểu cách dùng model, phiên dịch riêng tư, thuật ngữ và kiểm soát chi phí trước khi gửi yêu cầu."
+    studio_title: "Làm thế nào để dịch văn bản?"
+    studio_text: "Nhập nhãn ngôn ngữ nguồn và đích, dán văn bản, chọn 1–4 model khả dụng rồi xác nhận khả năng phát sinh phí inference. Các model chạy độc lập."
+    limits_title: "Vì sao Gateway v1 giới hạn 1.000 ký tự?"
+    limits_text: "Translation Gateway v1 chấp nhận tối đa 1.000 ký tự Unicode mỗi yêu cầu. Adapter khác có giới hạn riêng theo nhà cung cấp. Rails có ngưỡng an toàn 20.000 ký tự Unicode. Hệ thống chưa tự chia văn bản dài."
+    glossary_title: "Glossary hoạt động như thế nào?"
+    glossary_text: "Thêm cặp thuật ngữ gốc→đích đang bật, sau đó chọn Dùng Glossary trong Tùy chọn nâng cao ở Studio. Các thuật ngữ khớp cặp ngôn ngữ chỉ được đưa vào lời hướng dẫn tham khảo đối với endpoint OpenAI-compatible chat. Không bảo đảm model luôn dùng đúng từ, và Gateway v1 chưa hỗ trợ."
+    glossary_snapshot_title: "Nếu sửa thuật ngữ khi đang dịch thì sao?"
+    glossary_snapshot_text: "Cặp thuật ngữ phù hợp được mã hóa và đóng băng cùng phiên dịch trước khi xếp job tính phí. Sửa hoặc xóa thuật ngữ không ảnh hưởng job đang chờ. Mỗi phiên sử dụng tối đa 20 thuật ngữ phù hợp."
+    glossary_matching_title: "Vì sao thuật ngữ không được áp dụng?"
+    glossary_matching_text: "Nhãn ngôn ngữ phải khớp với cặp thuật ngữ (không phân biệt hoa/thường) và thuật ngữ gốc phải xuất hiện trong văn bản. Chỉ thuật ngữ đang bật mới hợp lệ. Nếu không có thuật ngữ khớp, yêu cầu bật Glossary sẽ bị từ chối trước khi gọi inference."
+    model_title: "Có thể dùng nhiều nhà cung cấp không?"
+    model_text: "Có. Bạn cấu hình URL, adapter và token mã hóa của từng model trong Cài đặt hệ thống. Khi bật Glossary, chỉ được chọn model OpenAI-compatible; hãy tắt Glossary nếu muốn so sánh với Gateway v1."
+    history_title: "Xem lịch sử có tốn GPU không?"
+    history_text: "Không. Xem, lọc, so sánh và tải phiên dịch đã lưu chỉ đọc dữ liệu. Chức năng làm mới trạng thái thủ công chỉ xếp lịch GET polling an toàn, không gửi lại POST dịch."
+    export_title: "File tải về chứa dữ liệu gì?"
+    export_text: "TXT, Markdown và JSON chứa văn bản nguồn và kết quả đã lưu, không có credential hoặc raw API response. Hãy bảo mật các file được tải về."
+    safety_title: "Nếu provider timeout thì sao?"
+    safety_text: "Yêu cầu tính phí có kết quả chưa rõ sẽ không tự động thử lại. Hãy kiểm tra trạng thái và dùng GET polling trước khi cân nhắc gửi yêu cầu mới."
+    links_title: "Liên kết nhanh"
+    studio_link: "Không gian dịch thuật"
+    glossary_link: "Quản lý thuật ngữ"
+    settings_link: "Cài đặt hệ thống"
+    history_link: "Lịch sử dịch"
+  history_filters:
+    heading: "Tìm phiên dịch"
+    description: "Tìm kiếm và lọc các phiên đã lưu mà không liên hệ với nhà cung cấp AI."
+    query: "Ngôn ngữ hoặc mã phiên"
+    query_placeholder: "Ví dụ: English, Vietnamese, UUID phiên"
+    status: "Trạng thái"
+    all_statuses: "Mọi trạng thái"
+    source_language: "Ngôn ngữ nguồn"
+    target_language: "Ngôn ngữ đích"
+    language_placeholder: "Mọi ngôn ngữ"
+    from_date: "Từ ngày"
+    to_date: "Đến ngày"
+    apply: "Áp dụng bộ lọc"
+    clear: "Xóa bộ lọc"
+    privacy: "Tìm kiếm theo mã phiên và nhãn ngôn ngữ, không tìm trong nội dung gốc đã mã hóa. Xem lịch sử không gọi inference."
+    results_heading: "Các phiên đã lưu"
+    results_count: "%{count} phiên phù hợp"
+    session_number: "Phiên #%{id}"
+    no_matches_title: "Không tìm thấy phiên phù hợp"
+    no_matches_description: "Thử thay đổi ngôn ngữ, ngày, trạng thái hoặc xóa bộ lọc để xem các phiên đã lưu."
+    pagination: "Phân trang lịch sử"
+    page: "Trang %{current} / %{total}"
+    page_number: "Trang %{number}"
+    showing: "Đang hiển thị %{first}–%{last} / %{total}"
+    previous: "Trước"
+    next: "Sau"
+  history_export:
+    glossary_count: "Số thuật ngữ Glossary đã dùng"
+    heading: "Tải kết quả"
+    description: "Xuất phiên đã lưu gồm văn bản gốc và kết quả model. Tải xuống không gọi inference; hãy bảo mật các tệp này."
+    format_txt: "TXT"
+    format_md: "Markdown"
+    format_json: "JSON"
+    session_title: "Phiên dịch #%{id}"
+    created_at: "Thời gian tạo (UTC)"
+    source_language: "Ngôn ngữ nguồn"
+    target_language: "Ngôn ngữ đích"
+    status: "Trạng thái"
+    preferred: "Bản ưu tiên"
+    simulated: "Kết quả mô phỏng"
+    original: "Văn bản gốc"
+    no_output: "Chưa có nội dung bản dịch"
+  settings:
+    eyebrow: Quản trị
+    title: Cài đặt hệ thống
+    description: Cấu hình nhà cung cấp, giao thức, endpoint và Bearer token được mã hóa cho từng kết nối. Nhiều model có thể dùng chung kết nối.
+    new_connection: Kết nối mới
+    model_deployments: Triển khai model
+    disable_model: Tắt model
+    enable_model: Bật model
+    active_connection: 'Đang dùng: %{name} / %{provider}'
+    no_deployment: Chưa chọn deployment
+    remote_model_key: Khóa model trên máy chủ
+    activate_deployment: Kích hoạt deployment
+    update_deployment: "Cập nhật deployment"
+    deployment_active: "Deployment đã kích hoạt"
+    deployment_change_hint: "Muốn chuyển deployment, hãy thay đổi kết nối hoặc mã model từ xa."
+    audit_model_subject: "Model: %{name} (%{key})"
+    audit_model_missing: "Model ID: %{id} (không còn trong danh mục)"
+    audit_connection_subject: "Kết nối: %{name}"
+    audit_empty: "Chưa có thay đổi cấu hình được ghi nhận."
+    connections: Các kết nối inference dùng chung
+    token: Token
+    last_probe: Lần kiểm tra cuối
+    check_catalog: Kiểm tra catalog (có thể đánh thức máy chủ)
+    check_confirm: Yêu cầu GET không thực hiện inference vẫn có thể đánh thức máy chủ hoặc phát sinh phí hosting. Tiếp tục?
+    probe_modal_title: "Kiểm tra catalog nhà cung cấp"
+    probe_modal_intro: "Kết nối: %{name}"
+    probe_modal_warning: "Thao tác này gửi một yêu cầu GET /v1/models có xác thực. Không tạo yêu cầu dịch, nhưng có thể đánh thức máy chủ và phát sinh phí hosting."
+    probe_modal_start: "Bắt đầu kiểm tra"
+    probe_modal_close: "Đóng"
+    probe_modal_loading: "Đang kết nối tới nhà cung cấp. Máy chủ đang ngủ có thể cần thêm thời gian để phản hồi…"
+    probe_modal_wait: "Vui lòng giữ cửa sổ này mở. Thời gian chờ được giới hạn bởi timeout của yêu cầu."
+    probe_modal_success: "Đã kiểm tra catalog"
+    probe_modal_error: "Kiểm tra catalog thất bại"
+    probe_modal_results: "Phản hồi từ nhà cung cấp"
+    probe_modal_status: "Trạng thái"
+    probe_modal_checked_at: "Thời điểm kiểm tra"
+    probe_modal_models: "Mã các model"
+    probe_modal_count: "Số model được trả về: %{count}"
+    probe_modal_more: "Hiển thị tối đa 12 mã model."
+    probe_modal_unlisted: "Endpoint đã phản hồi nhưng không cung cấp danh sách model theo cấu trúc nhận diện được."
+    probe_modal_session: "Cần xác nhận lại phiên quản trị trước khi kiểm tra kết nối."
+    probe_modal_reauthenticate: "Xác nhận mật khẩu"
+    probe_modal_rate_limit: "Bạn đã kiểm tra quá nhiều lần. Vui lòng thử lại sau khi giới hạn được đặt lại."
+    probe_modal_unexpected: "Không thể hoàn tất kiểm tra. Hãy xác minh phiên đăng nhập và thử lại."
+    probe_modal_timeout: "Yêu cầu chờ quá lâu. Vui lòng thử lại sau."
+    probe_modal_ready: "Sẵn sàng kiểm tra. Chưa gửi yêu cầu nào tới máy chủ."
+    empty_connections: Chưa có kết nối inference nào.
+    connection_setup_title: "Cấu hình kết nối nhà cung cấp đầu tiên"
+    connection_setup_description: "Để kích hoạt một trong bốn model, trước tiên hãy tạo kết nối nhà cung cấp gồm HTTPS endpoint, giao thức API và Bearer token. Bật kết nối rồi chọn nó trong phần triển khai model. Nhiều model có thể dùng chung một kết nối."
+    connection_setup_action: "Tạo kết nối nhà cung cấp"
+    connection_no_enabled_title: "Tất cả kết nối nhà cung cấp đang bị tắt"
+    connection_no_enabled_description: "Hãy sửa và bật một kết nối hiện có trước khi gán cho model. Chỉ những kết nối đã bật mới xuất hiện trong danh sách lựa chọn."
+    connection_edit_current: "Sửa kết nối đang sử dụng"
+    connection_create_for_model: "Tạo kết nối"
+    connection_manage: "Quản lý kết nối"
+    connection_disabled_notice: "Kết nối đang gán đã bị tắt. Hãy bật lại hoặc chọn kết nối đang hoạt động trước khi lưu deployment."
+    connection_unavailable: "Chưa có kết nối nào được bật. Hãy tạo và bật kết nối để kích hoạt deployment."
+    connection_unavailable_option: "Chưa có kết nối được bật"
+    connection_help: "Danh sách này dùng để gán kết nối đã lưu. Để thay đổi URL, giao thức hoặc token, hãy mở Quản lý kết nối hoặc Sửa kết nối đang sử dụng."
+    audit: Nhật ký cài đặt (không chứa token)
+    audit_by: bởi %{email}
+    form_name: Tên kết nối
+    api_protocol: Giao thức API
+    https_url: URL gốc HTTPS
+    https_hint: Chỉ cho phép HTTPS công khai cổng 443. Không chứa thông tin đăng nhập, query, fragment hoặc đường dẫn tùy ý.
+    bearer_token: Bearer token
+    bearer_placeholder: Nhập token mới hoặc thay thế
+    existing_token: 'Token hiện tại: %{status}. Để trống sẽ giữ nguyên token cũ. Không hiển thị plaintext.'
+    enable_connection: Bật kết nối cho các phiên dịch mới
+    save_connection: Lưu kết nối
+    connections_title: Các kết nối inference
+    add_connection: Thêm kết nối
+    new_title: Tạo kết nối inference
+    edit_title: Chỉnh sửa kết nối inference
+    not_configured: Chưa cấu hình
+    error_heading: 'Vui lòng sửa các lỗi sau:'
+    provider_modal: Modal.com
+    provider_lightning: Lightning.ai
+    provider_runpod: RunPod
+    provider_other: Khác / Tự lưu trữ
+    gateway_protocol: Translation Gateway v1
+    openai_protocol: OpenAI-compatible chat completions
+    url_errors:
+      https_required: phải sử dụng HTTPS
+      invalid_host: có tên miền không hợp lệ
+      port: phải dùng cổng HTTPS 443
+      internal_host: không được dùng tên miền nội bộ
+      credentials: không được chứa thông tin đăng nhập, tham số truy vấn hoặc fragment
+      path: không được có đường dẫn tùy ý
+      too_long: quá dài
+      dns: không thể phân giải địa chỉ công khai
+      network: trỏ đến mạng bị cấm
+      public: phải trỏ tới địa chỉ IP công khai có thể định tuyến
+      malformed: có định dạng không hợp lệ
+      invalid: không hợp lệ
+    token_required: phải được cấu hình trước khi bật kết nối
+    audit_actions:
+      connection_created: Đã tạo kết nối
+      connection_updated: Đã cập nhật kết nối
+      deployment_activated: Đã kích hoạt deployment
+      model_enabled: Đã bật model
+      model_disabled: Đã tắt model
+  notices:
+    translation_recorded: Đã ghi nhận yêu cầu dịch
+    status_scheduled: Đã lên lịch kiểm tra trạng thái
+    preferred_updated: Đã cập nhật bản dịch ưu tiên
+    connection_saved: Đã lưu kết nối
+    connection_updated: Đã cập nhật kết nối
+    probe_succeeded: Kiểm tra catalog thành công; chưa xác minh trạng thái GPU
+    probe_not_supported: Giao thức này không có cách kiểm tra kết nối an toàn mà không inference
+    probe_http: Kiểm tra kết nối trả về HTTP %{status}
+    probe_failed: Kiểm tra kết nối thất bại (không gửi inference)
+    deployment_unchanged: "Deployment này đã được kích hoạt; không tạo phiên bản trùng lặp"
+    availability_unchanged: "Trạng thái model không thay đổi"
+    deployment_updated: Đã cập nhật deployment; lịch sử cũ được giữ nguyên
+    availability_updated: Đã cập nhật trạng thái model
+    connection_must_be_ready: Kết nối phải được bật và có token
+    remote_identifier_required: Cần nhập mã model trên máy chủ
+  errors:
+    glossary_unsupported_adapter: "Glossary chưa hỗ trợ những model đã chọn: %{models}. Chỉ chọn model OpenAI-compatible chat hoặc tắt Glossary."
+    glossary_too_many_entries: "Cặp ngôn ngữ này có quá nhiều thuật ngữ để kiểm tra an toàn."
+    glossary_no_matches: "Không có thuật ngữ đang bật nào khớp cả nhãn ngôn ngữ và văn bản nguồn. Hãy tắt Glossary hoặc thêm thuật ngữ phù hợp."
+    glossary_too_many_matches: "Có hơn %{limit} thuật ngữ khớp văn bản. Hãy tắt Glossary hoặc giảm số thuật ngữ phù hợp trước khi gửi."
+    selected_models_input_limit: "Các model đã chọn không hỗ trợ độ dài văn bản: %{models}. Hãy rút ngắn hoặc bỏ chọn những model không tương thích. Chưa tạo yêu cầu dịch."
+    not_found_eyebrow: "Không tìm thấy trang · Lỗi 404"
+    not_found_title: "Trang này không tồn tại"
+    not_found_description: "Địa chỉ có thể chưa chính xác, trang đã được chuyển hoặc phiên dịch không còn khả dụng. Hãy quay về không gian dịch thuật để tiếp tục."
+    not_found_home: "Về trang dịch thuật"
+    not_found_history: "Lịch sử dịch"
+    not_found_sign_in: "Đăng nhập"
+    not_found_code: "HTTP 404 · Không gửi yêu cầu dịch mới."
+    cost_confirmation: Cần xác nhận chi phí
+    model_count: Hãy chọn từ 1 đến 4 model
+    request_key: Khóa yêu cầu không hợp lệ
+    model_selection: Model được chọn không hợp lệ
+    required_text_languages: Cần nhập văn bản và cả hai ngôn ngữ
+    different_languages: Ngôn ngữ nguồn và đích phải khác nhau
+    input_limit: Dữ liệu vượt giới hạn hệ thống
+    printable_languages: Nhãn ngôn ngữ phải chứa ít nhất một chữ cái
+    replayed_request: Khóa yêu cầu đã được dùng cho một bản dịch khác
+    user_invalid: Tài khoản quản trị không khả dụng
+    format: '%{attribute} %{message}'
+    messages:
+      blank: không được để trống
+      invalid: không hợp lệ
+      inclusion: không có trong danh sách được phép
+      taken: đã tồn tại
+      too_long: quá dài (tối đa %{count} ký tự)
+      required: phải được cung cấp
+      too_short: quá ngắn (tối thiểu %{count} ký tự)
+    target_must_differ: phải khác ngôn ngữ nguồn
+  statuses:
+    queued: Đang chờ
+    running: Đang chạy
+    completed: Hoàn tất
+    failed: Thất bại
+    partial_failed: Thất bại một phần
+    uncertain: Chưa xác định
+    dispatching: Đang gửi
+    accepted: Đã tiếp nhận
+    pending: Đang chờ
+    submitting: Đang gửi
+    resolved: Đã xử lý
+  time:
+    formats:
+      short: '%d/%m/%Y %H:%M'
+      long: '%d/%m/%Y %H:%M:%S'
+  activerecord:
+    models:
+      inference_connection: Kết nối inference
+    attributes:
+      inference_connection:
+        name: Tên kết nối
+        provider: Nhà cung cấp hosting
+        adapter_key: Giao thức API
+        base_url: URL gốc HTTPS
+        auth_type: Kiểu xác thực
+        api_token: Bearer token
+    errors:
+      messages:
+        record_invalid: 'Kiểm tra dữ liệu không thành công: %{errors}'
+
+  security:
+    nav: "Bảo mật"
+    eyebrow: "Quản trị"
+    title: "Trung tâm bảo mật"
+    description: "Theo dõi truy cập quản trị, thời hạn phiên, các cửa sổ giới hạn lượt truy cập và nhật ký bảo mật."
+    admin_accounts: "Tài khoản quản trị"
+    throttle_buckets: "Cửa sổ giới hạn đang hoạt động"
+    session_policy: "Chính sách phiên"
+    session_limits: "30 phút không hoạt động / tối đa 12 giờ"
+    login_protection: "Bảo vệ đăng nhập"
+    login_limits: "PostgreSQL: 12 lượt/IP/5 phút; 5 lượt/IP + tài khoản/10 phút. Có thêm giới hạn Rack::Attack."
+    throttle_note: "Con số là số bộ đếm đang hoạt động, không phải số yêu cầu bị chặn. Không lưu địa chỉ IP nguyên bản."
+    events: "Sự kiện xác thực gần đây"
+    settings_audit: "Thay đổi cấu hình gần đây"
+    no_events: "Chưa có sự kiện"
+    unknown_user: "Người dùng không xác định"
+    event_types:
+      login_success: "Đăng nhập thành công"
+      logout: "Đã đăng xuất"
+      reauthentication_success: "Xác nhận lại danh tính"

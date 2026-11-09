@@ -1,0 +1,557 @@
+en:
+  layout:
+    dashboard: "Dashboard"
+    breadcrumb: "Page navigation"
+    open_navigation: "Open navigation"
+    close_navigation: "Close navigation"
+    collapse_sidebar: "Collapse sidebar"
+    footer_status: "Administrator workspace"
+    workspace_nav: "Workspace"
+    administration_nav: "Administration"
+    account_role: "Administrator"
+    private_workspace: "Private AI workspace"
+    private_workspace_description: "Your translation providers, API credentials and comparison history stay protected behind administrator authentication."
+    product_overline: "AI translation platform"
+    footer_status: "Application workspace"
+    preference_error: "Unable to save this preference. Please try again."
+    welcome_badge: "Multi-model AI translation"
+    models_available: "Translation models"
+    start_translation: "Start translation"
+    manage_connections: "Manage connections"
+    history_empty_title: "No translations yet"
+    history_empty_description: "Run a translation to see your model comparisons and history here."
+    security_summary: "Protected administrator workspace"
+    translation_step_source: "Write your text"
+    translation_step_models: "Select AI models"
+    translation_step_results: "Compare responses"
+    auth_secure_label: "Secure administrator access"
+    connections_ready: "Configured connections"
+    title: Multilingual Translation Workspace
+    brand: Translation Workspace
+    translate: Translate
+    history: History
+    settings: System Settings
+    sign_out: Sign out
+    language: Interface language
+    theme: Appearance
+    light: Light
+    dark: Dark
+    auto: Auto (system)
+  dashboard:
+    title: Workspace overview
+    eyebrow: "YOUR AI WORKSPACE"
+    intro: "Organize multilingual translation, compare model responses, and review recent sessions from one place. Viewing this overview never contacts an inference provider."
+    new_translation: New translation
+    view_history: View history
+    activity_eyebrow: "WORKSPACE ACTIVITY"
+    overview: At a glance
+    db_only: Database statistics · no GPU requests
+    total_sessions: Translation sessions
+    total_sessions_note: Created in your workspace
+    ready_models: Configured models
+    ready_models_note: Connected model deployments
+    completed_runs: Completed runs
+    completed_runs_note: Model responses recorded
+    needs_attention: Needs attention
+    needs_attention_note: Failed, partial or uncertain sessions
+    recent_activity: Recent translations
+    recent_description: "Your latest six sessions; no source text is exposed on this dashboard."
+    view_all: View all
+    session_number: "Session %{number}"
+    empty_title: Your workspace is ready
+    empty_description: "Start a translation to see activity and model comparisons here."
+    setup_eyebrow: "QUICK START"
+    get_started: Start in three steps
+    setup_description: "Connect a provider and choose which models to use."
+    step_connect: Configure a provider
+    step_connect_description: "Add an endpoint and credential in System Settings."
+    step_assign: Assign model deployments
+    step_assign_description: "Link your chosen AI models to a provider."
+    step_compare: Translate and compare
+    step_compare_description: "Submit only after reviewing the possible inference cost."
+    no_ready_models: "No model is configured for translation yet."
+    configure_models: Open System Settings
+    models_eyebrow: "MODEL CATALOG"
+    models_title: Available model slots
+    models_description: "Configuration shown below comes from the database, not a live GPU health probe."
+    manage_models: Manage deployments
+    configured: Configured
+    not_configured: Not configured
+    no_provider: No provider assigned
+    readiness_disclaimer: "Configured means the model has an enabled provider and stored credential. It does not confirm GPU availability or successful translation."
+  auth:
+    story_kicker: "MULTILINGUAL AI WORKSPACE"
+    story_heading: "Compare multiple AI translations in one workspace."
+    story_description: "Manage the provider connections you choose, examine individual model responses and retain a reviewable translation history."
+    story_compare: "Side-by-side model selection"
+    story_compare_description: "Choose one to four configured models for a translation request."
+    story_choose: "Review and select a preferred result"
+    story_choose_description: "Select the response you prefer without rerunning inference."
+    story_control: "Administrator-managed connections"
+    story_control_description: "Endpoints and credentials are configured in protected settings."
+    sign_in_title: Administrator sign in
+    sign_in_description: Translation history and provider credentials are restricted to administrators.
+    email: Email
+    password: Password
+    sign_in: Sign in
+    signed_in: Signed in successfully
+    signed_out: Signed out
+    invalid_credentials: Invalid email or password
+    too_many_attempts: Too many attempts. Please try again later.
+    admin_required: Administrator login required
+    reauthentication_required: Confirm your password again before changing sensitive settings. The previous change was not saved.
+    reauthentication_title: Confirm your identity
+    reauthentication_description: For security, confirm your password to manage API endpoints and credentials.
+    verify_password: Verify password
+    reauthenticated: Identity confirmed. You may now edit settings for 10 minutes.
+    too_many_attempts_title: Rate limit reached
+  common:
+    add: Add
+    edit: Edit
+    cancel: Cancel
+    save: Save
+    enabled: Enabled
+    disabled: Disabled
+    configured: Configured
+    not_configured: Not configured
+    missing: Missing
+    not_checked: Not checked
+    last_checked: Last probe
+    manage_all: Manage all
+    provider: Provider
+    connection: Connection
+    select_connection: Choose connection
+    unknown: Unknown
+    attempt: Attempt
+    status: Status
+    created: Created
+    models: Models
+    copy: Copy
+    copied: Copied
+    copy_failed: Copy failed
+    expand: Expand
+    collapse: Collapse
+    preferred: ★ Selected translation
+    set_preferred: ☆ Choose this translation
+    no_provider: No provider
+    back_home: Return to home
+  workspace:
+    use_glossary: "Use glossary for this translation"
+    glossary_help: "%{count} active terms available. Applies only to OpenAI-compatible models, and only when an active term matches this language pair and source text. May increase prompt tokens and cost; not a guarantee of exact wording."
+    manage_glossary: "Manage glossary terms"
+    glossary_unsupported: "Glossary is not supported by the selected adapters: __MODELS__. Deselect them or disable Glossary before submitting."
+    app_length_caution: "The text exceeds the application's safety cap of %{limit} Unicode characters. Shorten it before submitting."
+    selected_models_length_caution: "Selected models cannot accept this source length: %{models}. Shorten the text or deselect these models before submitting. No inference has been sent."
+    model_source_limit: "Maximum %{count} Unicode characters per request"
+    model_source_limit_unknown: "Input limit depends on the provider; verify its endpoint settings"
+    select_all_models: "Select all"
+    select_all_note: "Only available models are selected, up to 4 per request."
+    studio_eyebrow: "TRANSLATION STUDIO"
+    no_auto_inference: "Nothing is sent until you approve"
+    step_one: "STEP 01 · SOURCE"
+    step_two: "STEP 02 · MODELS"
+    swap_languages: "Swap source and target languages"
+    text_privacy: "Private text"
+    characters_count: "%{count} characters"
+    words_count: "%{count} words"
+    source_max_length: "The usable length depends on the selected models."
+    gateway_length_caution: "Your text exceeds the 1,000 Unicode code-point limit of the selected Translation Gateway v1 model. Reduce it or choose a compatible provider before sending."
+    advanced_options: "Advanced options"
+    model_summary: "Select 1–4 configured models to compare independent responses."
+    unavailable_short: "Not configured"
+    no_ready_models: "No model is configured. Set up a connection and deployment before translating."
+    configure_models: "Configure models"
+    confirm_before_send: "You will be asked to approve any potential inference charges."
+    eyebrow: AI translation · Multi-provider
+    title: Translate and compare models
+    description: Enter any language label, choose 1–4 models, and compare independent results. An inference request is sent only after confirmation.
+    source_language: Source language
+    target_language: Target language
+    source_placeholder: e.g. English / en / 日本語
+    target_placeholder: e.g. Vietnamese / vi / Français
+    source_text: Text to translate
+    text_placeholder: Paste or type your text…
+    text_limit_heading: "Text length limits"
+    text_limit_gateway: "Translation Gateway v1: Maximum %{limit} Unicode characters per translation request."
+    text_limit_other: "Other endpoints: Limits depend on the deployed protocol and model."
+    text_limit_note: "The selected models are checked before submission. Long text is not automatically split into smaller parts."
+    preserve_formatting: Preserve formatting
+    preserve_formatting_help: "Ask the AI to preserve paragraph structure, line breaks, lists, placeholders, and identifiers in the original text. This is an instruction to the model, not a guarantee of exact formatting."
+    choose_models: Choose models
+    selected: Selected
+    configured: Configured
+    unavailable: Unavailable or disabled — configure in System Settings
+    charges_warning: Submitting to provider endpoints may incur inference charges.
+    charges_count: '%{count} model-run(s) may incur inference charges.'
+    charges_confirm: '%{count} model-run(s) may incur charges. Submit now?'
+    invalid_model_count: Select 1–4 models
+    translate: Translate text
+  history:
+    glossary_applied: "Glossary enabled · %{count} matching terms saved with this session"
+    view_options: "Comparison options"
+    layout_options: "Result layout"
+    two_columns: "2 columns"
+    four_columns: "4 columns"
+    highlight_differences: "Highlight differences"
+    diff_explanation: "Highlights show line-by-line text differences from the preferred result, or the first completed result if none is selected. This is not a translation-quality score. Comparison never calls inference."
+    title: Translation history
+    description: Paginated saved sessions · Browsing history does not trigger inference.
+    new: New translation
+    empty: No translation sessions yet.
+    session: Translation session
+    refresh: Refresh status (GET only)
+    original: Original text
+    results: Results by model
+    results_description: Each card updates independently. Viewing this page does not submit a new inference request.
+    connection_label: Connection
+    view_selected: View selected translation
+    hide_selected: Hide selected translation
+    selected_from_model: "Selected translation from %{model}"
+    preferred_explanation: "Choose the best translation to mark it as selected for this session. This does not rerun inference or change the other results."
+    progress_title: "Translation progress"
+    progress_count: "%{processed}/%{total} model runs processed (%{percent}%)"
+    progress_breakdown: "Completed: %{completed} · Failed: %{failed} · Uncertain: %{uncertain} · Processing: %{processing}"
+    progress_explanation: "Progress counts terminal model results, not GPU inference percentage. Updates are read-only and do not submit new translations."
+    simulated: Simulated output — not a real translation
+    unsupported: The selected language pair is not supported by this model.
+    failed: 'Model request failed: %{error}'
+    uncertain: The remote outcome is uncertain (%{error}). No automatic paid retry will occur.
+    processing: Queued or processing at the provider…
+    unchanged_output: "The provider returned exactly the original text. This may be intentional, but verify the source and target language settings."
+    unchanged_summary: "Some results are identical to the input. Requested language direction: %{source} → %{target}. Completion does not guarantee translation quality."
+    technical_details: "Technical details · Response, timing & tokens"
+    rails_elapsed: "Rails observed dispatch duration (includes waiting/polling)"
+    seconds_value: "%{value} s"
+    poll_count: "Status polls"
+    provider_timing: "Provider-reported timing"
+    token_usage: "Provider token usage"
+    resource_usage: "Provider CPU / GPU telemetry"
+    resource_usage_note: "GPU and VRAM values are post-inference snapshots, not peaks or averages. CPU utilization is measured for the model process across all cores; it can exceed 100%."
+    provider_not_reported: "Not reported by this provider"
+    not_available: "Unavailable"
+    dispatch_started_at: "Dispatch started (UTC)"
+    dispatch_resolved_at: "Dispatch resolved (UTC)"
+    response_snapshot: "API response snapshot"
+    response_snapshot_note: "Stored after polling, encrypted at rest. Only allowlisted API fields are retained; this is not a byte-for-byte HTTP response or headers."
+    response_unavailable: "The original API response was not stored for this run. No provider request was made to reconstruct it."
+    locally_recorded: "Locally recorded values (not the original response)"
+  glossary:
+    nav: "Glossary"
+    title: "Terminology glossary"
+    description: "Keep preferred translations for recurring terms. Your glossary stays within your administrator account."
+    privacy_title: "Private terminology"
+    privacy_note: "Term text and notes are encrypted in PostgreSQL. Only your account can view or edit your entries."
+    adapter_note: "Glossary is opt-in and currently supported for OpenAI-compatible chat endpoints only; Gateway v1 does not accept glossary fields."
+    new: "Add term"
+    edit: "Edit term"
+    delete: "Delete"
+    delete_confirm: "Delete this glossary entry? Already submitted translations keep their frozen snapshot."
+    created: "Glossary entry created."
+    updated: "Glossary entry saved."
+    deleted: "Glossary entry deleted."
+    filters: "Filter terminology"
+    source_language: "Source language"
+    target_language: "Target language"
+    source_language_hint: "e.g. English or en"
+    target_language_hint: "e.g. Vietnamese or vi"
+    any_language: "Any language"
+    status: "Status"
+    all: "All"
+    active: "Active"
+    inactive: "Inactive"
+    apply: "Apply filters"
+    clear: "Clear filters"
+    entries: "Your entries"
+    count: "%{count} entries"
+    empty_title: "No glossary terms yet"
+    empty_description: "Add your first preferred term pair to begin creating terminology guidance."
+    no_matches: "No entries match these filters"
+    filter_hint: "Try changing the language or status filters."
+    source_term: "Source term"
+    target_term: "Preferred translation"
+    source_term_hint: "e.g. apprenticeship"
+    target_term_hint: "e.g. học nghề"
+    notes: "Private notes (optional)"
+    notes_hint: "Context for your own reference. Notes are not sent to inference models."
+    notes_note: "Notes are stored for your reference only; the model receives term pairs, not these notes."
+    active_label: "Active: allow this entry when Glossary is enabled"
+    pair_matching: "Language labels are matched without regard to case; write them the same way in Studio (e.g. en→vi or English→Vietnamese). Only active terms appearing in source text are sent as guidance."
+    save: "Save term"
+    cancel: "Cancel"
+    validation_title: "Please correct the following errors:"
+    pagination: "Glossary pages"
+    page: "Page %{current} of %{total}"
+    previous: "Previous"
+    next: "Next"
+    form_description: "Choose the language pair and preferred terminology. This does not run an AI model."
+  help:
+    nav: "Help Center"
+    title: "Help Center"
+    description: "Understand models, private sessions, glossary terms and inference safety before submitting any paid request."
+    studio_title: "How do I translate text?"
+    studio_text: "Enter the source and target language labels, paste your text, choose 1–4 available models and confirm the possible inference charges. The selected models run independently."
+    limits_title: "Why does Gateway v1 have a 1,000-character limit?"
+    limits_text: "Translation Gateway v1 accepts at most 1,000 Unicode code points per translation request. Other adapters have provider-specific limits. Rails independently limits requests to 20,000 code points. Text is not automatically split."
+    glossary_title: "How does the glossary work?"
+    glossary_text: "Add active source→target term pairs, then turn on Use glossary under Advanced options in Studio. Matching terms for the exact language pair are included as reference instructions only for OpenAI-compatible chat endpoints. This cannot guarantee exact wording, and Gateway v1 is not supported."
+    glossary_snapshot_title: "What happens if I edit a term during translation?"
+    glossary_snapshot_text: "Matching term pairs are encrypted and frozen with the translation request before any paid job is queued. Changing or deleting an entry never changes an in-flight job. A request uses at most 20 matched terms."
+    glossary_matching_title: "Why are my terms not applied?"
+    glossary_matching_text: "Language labels must match the term's pair ignoring case, and its source term must appear in the input. Only active terms are eligible. If none match, the request with Glossary enabled is rejected before inference."
+    model_title: "Can I mix providers?"
+    model_text: "Yes. Configure each model's URL, adapter and encrypted token in System Settings. Glossary-enabled requests are restricted to OpenAI-compatible models; disable Glossary when comparing them with Gateway v1."
+    history_title: "Can viewing history cause GPU charges?"
+    history_text: "No. Viewing, filtering, comparing or downloading saved sessions uses stored data. The optional manual status refresh only schedules safe provider GET polling, not a new translation POST."
+    export_title: "What is included in downloads?"
+    export_text: "The TXT, Markdown and JSON exports include the saved input and model results, excluding provider credentials and raw API response snapshots. Treat downloaded files as sensitive."
+    safety_title: "What if a provider times out?"
+    safety_text: "An uncertain billable request is not automatically repeated. Inspect status and use read-only polling rather than resubmitting without checking the provider first."
+    links_title: "Quick links"
+    studio_link: "Translation Studio"
+    glossary_link: "Manage glossary"
+    settings_link: "System Settings"
+    history_link: "Translation history"
+  history_filters:
+    heading: "Find translations"
+    description: "Search and filter your saved sessions without contacting any AI provider."
+    query: "Language or session number"
+    query_placeholder: "e.g. English, Vietnamese, session UUID"
+    status: "Status"
+    all_statuses: "All statuses"
+    source_language: "Source language"
+    target_language: "Target language"
+    language_placeholder: "Any language"
+    from_date: "From date"
+    to_date: "To date"
+    apply: "Apply filters"
+    clear: "Clear filters"
+    privacy: "Search covers session IDs and language labels, not encrypted source text. Viewing history does not trigger inference."
+    results_heading: "Saved sessions"
+    results_count: "%{count} matching sessions"
+    session_number: "Session #%{id}"
+    no_matches_title: "No sessions match these filters"
+    no_matches_description: "Try other languages, dates or statuses, or clear the filters to see your saved translations."
+    pagination: "History pages"
+    page: "Page %{current} of %{total}"
+    page_number: "Page %{number}"
+    showing: "Showing %{first}–%{last} of %{total}"
+    previous: "Previous"
+    next: "Next"
+  history_export:
+    glossary_count: "Glossary terms used"
+    heading: "Download results"
+    description: "Export this saved session, including the original text and model results. Downloads do not call inference; keep the files private."
+    format_txt: "TXT"
+    format_md: "Markdown"
+    format_json: "JSON"
+    session_title: "Translation session #%{id}"
+    created_at: "Created (UTC)"
+    source_language: "Source language"
+    target_language: "Target language"
+    status: "Status"
+    preferred: "Preferred"
+    simulated: "Simulated result"
+    original: "Original text"
+    no_output: "No translation text available"
+  settings:
+    eyebrow: Administration
+    title: System Settings
+    description: Configure provider, protocol, endpoint and encrypted Bearer token per connection. Multiple models may reuse a connection.
+    new_connection: New connection
+    model_deployments: Model deployments
+    disable_model: Disable model
+    enable_model: Enable model
+    active_connection: 'Active: %{name} / %{provider}'
+    no_deployment: No deployment selected
+    remote_model_key: Remote model key
+    activate_deployment: Activate deployment
+    update_deployment: "Update deployment"
+    deployment_active: "Deployment already active"
+    deployment_change_hint: "To change the deployment, select a different connection or remote model key."
+    audit_model_subject: "Model: %{name} (%{key})"
+    audit_model_missing: "Model ID: %{id} (no longer in catalog)"
+    audit_connection_subject: "Connection: %{name}"
+    audit_empty: "No settings changes recorded yet."
+    connections: Reusable inference connections
+    token: Token
+    last_probe: Last probe
+    check_catalog: Check catalog (may wake host)
+    check_confirm: A non-inference GET can still wake the host or incur hosting charges. Proceed?
+    probe_modal_title: "Check provider catalog"
+    probe_modal_intro: "Connection: %{name}"
+    probe_modal_warning: "This sends a single authenticated GET /v1/models request. It does not submit a translation, but it can wake the hosting service and incur hosting charges."
+    probe_modal_start: "Start catalog check"
+    probe_modal_close: "Close"
+    probe_modal_loading: "Contacting the provider. A sleeping host may take a little longer to respond…"
+    probe_modal_wait: "Please keep this dialog open. The check is limited by the provider's request timeout."
+    probe_modal_success: "Catalog check completed"
+    probe_modal_error: "Catalog check failed"
+    probe_modal_results: "Provider response"
+    probe_modal_status: "Status"
+    probe_modal_checked_at: "Checked at"
+    probe_modal_models: "Model identifiers"
+    probe_modal_count: "Models reported: %{count}"
+    probe_modal_more: "Showing up to 12 identifiers."
+    probe_modal_unlisted: "The endpoint responded, but did not provide a recognizable model list."
+    probe_modal_session: "Your administrator session needs to be verified again before checking this connection."
+    probe_modal_reauthenticate: "Verify password"
+    probe_modal_rate_limit: "Too many checks. Please try again after the rate limit expires."
+    probe_modal_unexpected: "The check could not be completed. Verify your session and try again."
+    probe_modal_timeout: "The request took too long. Please try again later."
+    probe_modal_ready: "Ready to check. No request has been sent yet."
+    empty_connections: No provider connections configured.
+    connection_setup_title: "Set up your first provider connection"
+    connection_setup_description: "To activate any of the four models, first add a provider connection with its HTTPS endpoint, API protocol and Bearer token. Enable it, then select it in a model deployment. A connection can be reused by several models."
+    connection_setup_action: "Create a provider connection"
+    connection_no_enabled_title: "All provider connections are disabled"
+    connection_no_enabled_description: "Edit an existing connection and enable it before assigning a model. Only enabled connections appear in the model selectors."
+    connection_edit_current: "Edit the assigned connection"
+    connection_create_for_model: "Create connection"
+    connection_manage: "Manage connections"
+    connection_disabled_notice: "The assigned connection is disabled. Enable it or choose another active connection before saving a deployment."
+    connection_unavailable: "No enabled connections yet. Create one and enable it to activate a deployment."
+    connection_unavailable_option: "No enabled connections available"
+    connection_help: "This selector assigns a saved provider connection. To modify its URL, protocol or token, open Manage connections or Edit the assigned connection."
+    audit: Settings audit (no credentials)
+    audit_by: by %{email}
+    form_name: Connection name
+    api_protocol: API protocol
+    https_url: HTTPS base URL
+    https_hint: Public HTTPS port 443 only. No credentials, query, fragment or custom path.
+    bearer_token: Bearer token
+    bearer_placeholder: Enter or rotate token
+    existing_token: 'Existing token: %{status}. Leave blank to preserve the previous token. Plaintext is never displayed.'
+    enable_connection: Enable for new translations
+    save_connection: Save connection
+    connections_title: Inference connections
+    add_connection: Add connection
+    new_title: New inference connection
+    edit_title: Edit inference connection
+    not_configured: Not configured
+    error_heading: 'Please correct the following problems:'
+    provider_modal: Modal.com
+    provider_lightning: Lightning.ai
+    provider_runpod: RunPod
+    provider_other: Other / Self-hosted
+    gateway_protocol: Translation Gateway v1
+    openai_protocol: OpenAI-compatible chat completions
+    url_errors:
+      https_required: must be an HTTPS URL
+      invalid_host: has an invalid hostname
+      port: must use HTTPS port 443
+      internal_host: cannot use an internal hostname
+      credentials: must not contain credentials, query or fragment
+      path: must not include a custom path
+      too_long: is too long
+      dns: could not resolve to a public address
+      network: resolves to a prohibited network
+      public: must resolve to a publicly routable IP address
+      malformed: is malformed
+      invalid: is invalid
+    token_required: must be configured before enabling this connection
+    audit_actions:
+      connection_created: Connection created
+      connection_updated: Connection updated
+      deployment_activated: Deployment activated
+      model_enabled: Model enabled
+      model_disabled: Model disabled
+  notices:
+    translation_recorded: Translation request recorded
+    status_scheduled: Status lookup scheduled
+    preferred_updated: Preferred translation updated
+    connection_saved: Connection saved
+    connection_updated: Connection updated
+    probe_succeeded: Catalog probe succeeded; GPU readiness not verified
+    probe_not_supported: No safe non-inference connection probe for this protocol
+    probe_http: Connection check returned HTTP %{status}
+    probe_failed: Connection test failed (no inference submitted)
+    deployment_unchanged: "This deployment is already active; no duplicate version created"
+    availability_unchanged: "Model availability is unchanged"
+    deployment_updated: Model deployment updated; previous history retained
+    availability_updated: Model availability updated
+    connection_must_be_ready: Connection must be enabled with a token
+    remote_identifier_required: Remote model identifier required
+  errors:
+    glossary_unsupported_adapter: "Glossary is not supported for these selected models: %{models}. Use only OpenAI-compatible chat models or turn Glossary off."
+    glossary_too_many_entries: "This language pair has too many glossary entries to evaluate safely."
+    glossary_no_matches: "No active glossary terms match both these language labels and the source text. Disable Glossary or add a matching term."
+    glossary_too_many_matches: "More than %{limit} glossary terms match this text. Disable Glossary or reduce the matching entries before submitting."
+    selected_models_input_limit: "Selected models cannot accept this source length: %{models}. Shorten the text or deselect the incompatible models. No translation request was created."
+    not_found_eyebrow: "Page not found · Error 404"
+    not_found_title: "This page could not be found"
+    not_found_description: "The address may be incorrect, the page may have moved, or this translation is no longer available. Return to the workspace to continue."
+    not_found_home: "Return to workspace"
+    not_found_history: "Translation history"
+    not_found_sign_in: "Sign in"
+    not_found_code: "HTTP 404 · No translation was submitted."
+    cost_confirmation: Cost confirmation is required
+    model_count: Select between 1 and 4 models
+    request_key: Invalid request key
+    model_selection: Unknown model selection
+    required_text_languages: Text and both language labels are required
+    different_languages: Source and target must differ
+    input_limit: Input exceeds workspace limit
+    printable_languages: Language labels must contain a letter
+    replayed_request: Request key has already been used for a different translation
+    user_invalid: Administrator account unavailable
+    format: '%{attribute} %{message}'
+    messages:
+      blank: can't be blank
+      invalid: is invalid
+      inclusion: is not included in the list
+      taken: has already been taken
+      too_long: is too long (maximum is %{count} characters)
+      required: must exist
+      too_short: is too short (minimum is %{count} characters)
+    target_must_differ: must differ from the source language
+  statuses:
+    queued: Queued
+    running: Running
+    completed: Completed
+    failed: Failed
+    partial_failed: Partially failed
+    uncertain: Uncertain
+    dispatching: Dispatching
+    accepted: Accepted
+    pending: Pending
+    submitting: Submitting
+    resolved: Resolved
+  time:
+    formats:
+      short: '%Y-%m-%d %H:%M'
+      long: '%Y-%m-%d %H:%M:%S'
+  activerecord:
+    models:
+      inference_connection: Inference connection
+    attributes:
+      inference_connection:
+        name: Connection name
+        provider: Hosting provider
+        adapter_key: API protocol
+        base_url: HTTPS base URL
+        auth_type: Authentication type
+        api_token: Bearer token
+    errors:
+      messages:
+        record_invalid: 'Validation failed: %{errors}'
+
+  security:
+    nav: "Security"
+    eyebrow: "Administration"
+    title: "Security Center"
+    description: "Review administrator access, session policy, active throttle windows and security audit events."
+    admin_accounts: "Administrator accounts"
+    throttle_buckets: "Active rate-limit windows"
+    session_policy: "Session policy"
+    session_limits: "30 min idle / 12 h maximum"
+    login_protection: "Login protection"
+    login_limits: "SQL: 12 attempts per IP / 5 min; 5 per IP + account / 10 min. Additional Rack::Attack limits apply."
+    throttle_note: "The count shows all active rate-limit buckets, not the number of blocked requests. No raw IP address is stored."
+    events: "Recent authentication events"
+    settings_audit: "Recent configuration changes"
+    no_events: "No events recorded"
+    unknown_user: "Unknown user"
+    event_types:
+      login_success: "Successful sign-in"
+      logout: "Signed out"
+      reauthentication_success: "Identity reconfirmed"
