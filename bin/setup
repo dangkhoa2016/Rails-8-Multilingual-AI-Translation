@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+bundle check || bundle install
+bin/rails db:prepare
+bin/rails db:seed
+bin/rails tailwindcss:build
+printf 'Setup finished. Start with bin/rails server and bin/jobs start in a separate terminal.\n'
