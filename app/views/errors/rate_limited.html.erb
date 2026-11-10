@@ -1,0 +1,9 @@
+<% content_for :page_title, t("auth.too_many_attempts_title") %>
+<section class="app-auth-card max-w-xl">
+  <div class="app-auth-avatar text-[var(--warn)]"><%= ui_icon("alert-circle", size: 28) %></div>
+  <h1><%= t("auth.too_many_attempts_title") %></h1>
+  <p class="mt-4 text-sm leading-relaxed text-[var(--muted)]"><%= t("auth.too_many_attempts") %></p>
+  <%= link_to root_path, class: "app-btn-outline mt-6" do %>
+    <%= ui_icon("arrow-right", size: 16) %><%= t("common.back_home") %>
+  <% end %>
+</section>

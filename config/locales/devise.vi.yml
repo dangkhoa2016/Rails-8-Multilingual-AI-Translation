@@ -1,0 +1,63 @@
+vi:
+  devise:
+    confirmations:
+      confirmed: "Địa chỉ email đã được xác nhận."
+      send_instructions: "Bạn sẽ nhận được hướng dẫn xác nhận email."
+      send_paranoid_instructions: "Nếu email tồn tại, hệ thống sẽ gửi hướng dẫn xác nhận."
+    failure:
+      already_authenticated: "Bạn đã đăng nhập."
+      inactive: "Tài khoản chưa được kích hoạt."
+      invalid: "Email hoặc mật khẩu không đúng."
+      locked: "Tài khoản đang bị khóa."
+      last_attempt: "Bạn còn một lần thử trước khi tài khoản bị khóa."
+      not_found_in_database: "Email hoặc mật khẩu không đúng."
+      timeout: "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại."
+      unauthenticated: "Bạn cần đăng nhập để tiếp tục."
+      unconfirmed: "Bạn cần xác nhận email trước khi tiếp tục."
+    mailer:
+      confirmation_instructions:
+        subject: "Hướng dẫn xác nhận email"
+      reset_password_instructions:
+        subject: "Hướng dẫn đặt lại mật khẩu"
+      unlock_instructions:
+        subject: "Hướng dẫn mở khóa tài khoản"
+      email_changed:
+        subject: "Email đã được thay đổi"
+      password_change:
+        subject: "Mật khẩu đã được thay đổi"
+    omniauth_callbacks:
+      failure: "Không thể xác thực qua %{kind} do \"%{reason}\"."
+      success: "Đã xác thực thành công qua %{kind}."
+    passwords:
+      no_token: "Liên kết đặt lại mật khẩu không hợp lệ hoặc không đầy đủ."
+      send_instructions: "Bạn sẽ nhận được email hướng dẫn đặt lại mật khẩu."
+      send_paranoid_instructions: "Nếu email tồn tại, hệ thống sẽ gửi liên kết đặt lại mật khẩu."
+      updated: "Đã đổi mật khẩu và đăng nhập thành công."
+      updated_not_active: "Đã đổi mật khẩu thành công."
+    registrations:
+      destroyed: "Đã xóa tài khoản."
+      signed_up: "Đã tạo tài khoản thành công."
+      signed_up_but_inactive: "Đã tạo tài khoản, nhưng tài khoản chưa được kích hoạt."
+      signed_up_but_locked: "Đã tạo tài khoản, nhưng tài khoản đang bị khóa."
+      signed_up_but_unconfirmed: "Đã gửi liên kết xác nhận đến email."
+      update_needs_confirmation: "Cần xác nhận địa chỉ email mới."
+      updated: "Đã cập nhật tài khoản."
+      updated_but_not_signed_in: "Đã cập nhật tài khoản. Vui lòng đăng nhập lại."
+    sessions:
+      signed_in: "Đăng nhập thành công."
+      signed_out: "Đã đăng xuất."
+      already_signed_out: "Đã đăng xuất."
+    unlocks:
+      send_instructions: "Bạn sẽ nhận được hướng dẫn mở khóa tài khoản."
+      send_paranoid_instructions: "Nếu tài khoản tồn tại, hệ thống sẽ gửi hướng dẫn mở khóa."
+      unlocked: "Đã mở khóa tài khoản. Vui lòng đăng nhập."
+  errors:
+    messages:
+      already_confirmed: "đã được xác nhận"
+      confirmation_period_expired: "cần xác nhận trong vòng %{period}"
+      expired: "đã hết hạn"
+      not_found: "không tìm thấy"
+      not_locked: "chưa bị khóa"
+      not_saved:
+        one: "Có 1 lỗi khiến %{resource} không được lưu:"
+        other: "Có %{count} lỗi khiến %{resource} không được lưu:"
