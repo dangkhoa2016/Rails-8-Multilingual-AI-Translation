@@ -1,0 +1,11 @@
+# Read-only recovery sweeps. Never replay a possibly billable inference POST.
+# Solid Queue's scheduler runs these only when the queue supervisor is active.
+development:
+  reconcile_translation_dispatches:
+    class: ReconcileTranslationDispatchesJob
+    schedule: every 5 minutes
+
+production:
+  reconcile_translation_dispatches:
+    class: ReconcileTranslationDispatchesJob
+    schedule: every 5 minutes
