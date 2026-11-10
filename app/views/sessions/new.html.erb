@@ -1,0 +1,42 @@
+<% content_for :page_title, t("auth.sign_in_title") %>
+<div class="auth-experience">
+<section class="app-auth-card">
+  <div class="app-auth-avatar"><%= ui_icon("shield", size: 26) %></div>
+  <p class="app-eyebrow"><%= ui_icon("lock", size: 15) %><%= t("layout.auth_secure_label") %></p>
+  <h1 class="mb-3"><%= t("auth.sign_in_title") %></h1>
+  <p class="mb-8 text-sm leading-relaxed text-[var(--muted)]"><%= t("auth.sign_in_description") %></p>
+  <%= form_with url: login_path, method: :post, class: "space-y-5" do |f| %>
+    <div>
+      <%= f.label :email, t("auth.email"), class: "mb-2 block text-sm font-semibold" %>
+      <%= f.email_field :email, required: true, autocomplete: "username",
+        class: "w-full rounded-xl border border-[var(--border)] bg-[var(--input)] px-4 py-3" %>
+    </div>
+    <div>
+      <%= f.label :password, t("auth.password"), class: "mb-2 block text-sm font-semibold" %>
+      <%= f.password_field :password, required: true, autocomplete: "current-password",
+        class: "w-full rounded-xl border border-[var(--border)] bg-[var(--input)] px-4 py-3" %>
+    </div>
+    <%= f.submit t("auth.sign_in"), class: "app-btn-primary mt-2 w-full cursor-pointer py-3.5" %>
+  <% end %>
+  <div class="mt-7 flex items-center gap-2 border-t border-[var(--border-soft)] pt-5 text-xs text-[var(--muted)]">
+    <%= ui_icon("shield", size: 16, class_name: "text-[var(--success)]") %><%= t("layout.security_summary") %>
+  </div>
+</section>
+<aside class="auth-story" aria-labelledby="auth-story-heading">
+  <p class="auth-story-kicker"><%= t("auth.story_kicker") %></p>
+  <h2 id="auth-story-heading"><%= t("auth.story_heading") %></h2>
+  <p class="auth-story-description"><%= t("auth.story_description") %></p>
+  <div class="auth-feature-list">
+    <% [
+      ["languages", t("auth.story_compare"), t("auth.story_compare_description")],
+      ["check-circle", t("auth.story_choose"), t("auth.story_choose_description")],
+      ["shield", t("auth.story_control"), t("auth.story_control_description")]
+    ].each do |icon, heading, description| %>
+      <div class="auth-feature">
+        <span><%= ui_icon(icon, size: 21) %></span>
+        <span><strong><%= heading %></strong><small><%= description %></small></span>
+      </div>
+    <% end %>
+  </div>
+</aside>
+</div>

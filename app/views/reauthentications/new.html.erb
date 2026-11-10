@@ -1,0 +1,15 @@
+<% content_for :page_title, t("auth.reauthentication_title") %>
+<section class="app-auth-card">
+  <div class="app-auth-avatar"><%= ui_icon("key", size: 26) %></div>
+  <p class="app-eyebrow"><%= ui_icon("lock", size: 15) %><%= t("layout.auth_secure_label") %></p>
+  <h1 class="mb-3"><%= t("auth.reauthentication_title") %></h1>
+  <p class="mb-8 text-sm leading-relaxed text-[var(--muted)]"><%= t("auth.reauthentication_description") %></p>
+  <%= form_with url: reauthentication_path, method: :post, class: "space-y-5" do |f| %>
+    <div>
+      <%= f.label :password, t("auth.password"), class: "mb-2 block text-sm font-semibold" %>
+      <%= f.password_field :password, required: true, autocomplete: "current-password",
+        class: "w-full rounded-xl border border-[var(--border)] bg-[var(--input)] px-4 py-3" %>
+    </div>
+    <%= f.submit t("auth.verify_password"), class: "app-btn-primary w-full cursor-pointer py-3.5" %>
+  <% end %>
+</section>
