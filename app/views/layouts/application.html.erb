@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>" data-theme="<%= ui_theme %>">
+  <head>
+    <title>Rails 8 Multilingual AI Translation | <%= content_for(:page_title) || t("layout.title") %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="app-body">
+    <div class="app-shell <%= current_user&.admin? ? 'is-admin' : 'is-guest' %>" data-controller="workspace-nav">
+      <% if current_user&.admin? %>
+        <button type="button" class="app-sidebar-backdrop" data-workspace-nav-target="backdrop"
+          data-action="click->workspace-nav#closeMobile" aria-label="<%= t('layout.close_navigation') %>"
+          tabindex="-1"></button>
+      <% end %>
+      <aside id="workspace-sidebar" class="app-sidebar" data-workspace-nav-target="sidebar" aria-label="<%= t('layout.brand') %>">
+        <div class="app-sidebar-header">
+          <%= link_to (current_user&.admin? ? admin_dashboard_path : root_path), class: "app-brand" do %>
+            <span class="app-brand-mark"><%= ui_icon("languages", size: 26) %></span>
+            <span class="app-brand-copy min-w-0">
+              <span class="app-brand-title">Rails 8 <span class="text-[var(--accent)]">Multilingual AI Translation</span></span>
+              <span class="app-brand-subtitle"><%= t("layout.brand") %></span>
+            </span>
+          <% end %>
+          <% if current_user&.admin? %>
+            <button type="button" class="app-nav-close" data-action="click->workspace-nav#closeMobile"
+              aria-label="<%= t('layout.close_navigation') %>"><%= ui_icon("x", size: 20) %></button>
+          <% end %>
+        </div>
+        <% if current_user&.admin? %>
+          <div class="app-nav-container">
+            <div class="app-nav-section-label"><%= t("layout.workspace_nav") %></div>
+            <nav class="app-nav" aria-label="<%= t('layout.workspace_nav') %>">
+              <%= navigation_link name: t("layout.dashboard"), path: admin_dashboard_path, icon: "layout-dashboard",
+                active: controller_path == "admin/dashboard" %>
+              <%= navigation_link name: t("layout.translate"), path: new_admin_translation_path, icon: "sparkles",
+                active: controller_path == "admin/translations" && action_name == "new" %>
+              <%= navigation_link name: t("layout.history"), path: admin_translations_path, icon: "history",
+                active: controller_path == "admin/translations" && action_name != "new" %>
+              <%= navigation_link name: t("glossary.nav"), path: admin_glossary_entries_path, icon: "book-open",
+                active: controller_path == "admin/glossary_entries" %>
+              <%= navigation_link name: t("help.nav"), path: admin_help_path, icon: "circle-help",
+                active: controller_path == "admin/help" %>
+            </nav>
+            <div class="app-nav-section-label"><%= t("layout.administration_nav") %></div>
+            <nav class="app-nav" aria-label="<%= t('layout.administration_nav') %>">
+              <%= navigation_link name: t("layout.settings"), path: admin_settings_inference_path, icon: "settings",
+                active: controller_path.start_with?("admin/settings/") %>
+              <%= navigation_link name: t("security.nav"), path: admin_security_path, icon: "shield",
+                active: controller_path == "admin/security" %>
+            </nav>
+          </div>
+          <div class="app-sidebar-bottom">
+            <div class="app-account">
+              <span class="app-avatar"><%= ui_icon("user", size: 19) %></span>
+              <span class="app-account-copy min-w-0 flex-1">
+                <span class="block truncate text-sm font-semibold"><%= current_user.email %></span>
+                <span class="block text-xs text-[var(--muted)]"><%= t("layout.account_role") %></span>
+              </span>
+            </div>
+            <%= button_to logout_path, method: :delete, class: "app-signout",
+              title: t("layout.sign_out"), aria: { label: t("layout.sign_out") } do %>
+              <%= ui_icon("log-out", size: 17) %><span><%= t("layout.sign_out") %></span>
+            <% end %>
+            <button type="button" class="app-sidebar-collapse" data-action="click->workspace-nav#toggleCompact"
+              data-workspace-nav-target="compactToggle" aria-label="<%= t('layout.collapse_sidebar') %>"
+              title="<%= t('layout.collapse_sidebar') %>" aria-expanded="true">
+              <%= ui_icon("panel-left-close", size: 18) %><span><%= t("layout.collapse_sidebar") %></span>
+            </button>
+          </div>
+        <% else %>
+          <div class="app-guest-note">
+            <span class="app-guest-icon"><%= ui_icon("shield", size: 23) %></span>
+            <h2 class="mt-4 font-semibold"><%= t("layout.private_workspace") %></h2>
+            <p class="mt-2 text-sm leading-relaxed text-[var(--muted)]"><%= t("layout.private_workspace_description") %></p>
+          </div>
+        <% end %>
+      </aside>
+      <div class="app-workspace">
+        <header class="app-topbar">
+          <div class="app-topbar-context min-w-0">
+            <div class="app-topbar-navigation">
+              <% if current_user&.admin? %>
+                <button type="button" class="app-mobile-menu" data-workspace-nav-target="mobileToggle"
+                  data-action="click->workspace-nav#toggleMobile" aria-controls="workspace-sidebar"
+                  aria-expanded="false" aria-label="<%= t('layout.open_navigation') %>">
+                  <%= ui_icon("menu", size: 21) %>
+                </button>
+              <% end %>
+              <div class="app-topbar-text min-w-0">
+                <p class="app-topbar-overline"><%= t("layout.product_overline") %></p>
+                <div class="app-breadcrumb" aria-label="<%= t('layout.breadcrumb') %>">
+                  <% if current_user&.admin? %>
+                    <%= link_to t("layout.dashboard"), admin_dashboard_path, class: "app-breadcrumb-home" %>
+                    <%= ui_icon("chevron-right", size: 14) %>
+                  <% end %>
+                  <span class="truncate" aria-current="page"><%= content_for(:page_title) || t("layout.title") %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="app-preferences">
+            <%= form_with url: preferences_path, method: :patch,
+              data: { controller: "preference", "preference-error-message-value": t("layout.preference_error") },
+              class: "app-preference-form" do %>
+              <%= hidden_field_tag :return_to, request.fullpath %>
+              <%= label_tag :ui_locale, t("layout.language"), class: "sr-only" %>
+              <span class="app-preference-icon"><%= ui_icon("globe", size: 16) %></span>
+              <%= select_tag :ui_locale, options_for_select([["English", "en"], ["Tiếng Việt", "vi"]], ui_locale),
+                aria: { label: t("layout.language") },
+                data: { action: "change->preference#change", "preference-target": "select" },
+                class: "app-preference-select" %>
+            <% end %>
+            <%= form_with url: preferences_path, method: :patch,
+              data: { controller: "preference", "preference-error-message-value": t("layout.preference_error") },
+              class: "app-preference-form" do %>
+              <%= hidden_field_tag :return_to, request.fullpath %>
+              <%= label_tag :ui_theme, t("layout.theme"), class: "sr-only" %>
+              <span class="app-preference-icon"><%= ui_icon("sun", size: 16) %></span>
+              <%= select_tag :ui_theme,
+                options_for_select([[t("layout.light"), "light"], [t("layout.dark"), "dark"], [t("layout.auto"), "auto"]], ui_theme),
+                aria: { label: t("layout.theme") },
+                data: { action: "change->preference#change", "preference-target": "select" },
+                class: "app-preference-select" %>
+            <% end %>
+          </div>
+        </header>
+        <main id="app-main" class="app-main">
+          <% if notice.present? %><div role="status" class="app-flash app-flash-success"><%= ui_icon("check-circle", size: 19) %><span><%= notice %></span></div><% end %>
+          <% if alert.present? %><div role="alert" class="app-flash app-flash-error"><%= ui_icon("alert-circle", size: 19) %><span><%= alert %></span></div><% end %>
+          <%= yield %>
+        </main>
+        <footer class="app-footer">
+          <span class="app-footer-brand">© <%= Time.current.year %> Rails 8 Multilingual AI Translation</span>
+          <span class="app-footer-status"><%= ui_icon("shield", size: 14) %><%= t("layout.footer_status") %>
+            <% if current_user&.admin? %> · <%= link_to t("security.nav"), admin_security_path, class: "app-footer-link" %><% end %>
+          </span>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

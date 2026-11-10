@@ -1,0 +1,87 @@
+@import "tailwindcss";
+@import "./interface.css";
+
+@layer base {
+  :root, :root[data-theme="light"] {
+    color-scheme: light;
+    --page: #f8fafc;
+    --surface: #ffffff;
+    --input: #f8fafc;
+    --surface-hover: #edf2f7;
+    --text: #0f172a;
+    --text-strong: #020617;
+    --muted: #475569;
+    --subtle: #334155;
+    --border: #cbd5e1;
+    --border-soft: #e2e8f0;
+    --accent: #0e7490;
+    --accent-border: #0891b2;
+    --action: #0891b2;
+    --action-text: #ffffff;
+    --success: #047857;
+    --warn: #92400e;
+    --warn-bg: #fffbeb;
+    --warn-border: #fcd34d;
+    --danger: #be123c;
+    --danger-bg: #fff1f2;
+    --danger-border: #fda4af;
+    --info-bg: #ecfeff;
+    --info-border: #67e8f9;
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #020617;
+    --surface: #0f172a;
+    --input: #020617;
+    --surface-hover: #1e293b;
+    --text: #f1f5f9;
+    --text-strong: #ffffff;
+    --muted: #94a3b8;
+    --subtle: #cbd5e1;
+    --border: #334155;
+    --border-soft: #1e293b;
+    --accent: #67e8f9;
+    --accent-border: #22d3ee;
+    --action: #06b6d4;
+    --action-text: #020617;
+    --success: #6ee7b7;
+    --warn: #fcd34d;
+    --warn-bg: #451a03;
+    --warn-border: #78350f;
+    --danger: #fda4af;
+    --danger-bg: #4c0519;
+    --danger-border: #9f1239;
+    --info-bg: #164e63;
+    --info-border: #155e75;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root[data-theme="auto"] {
+      color-scheme: dark;
+      --page: #020617;
+      --surface: #0f172a;
+      --input: #020617;
+      --surface-hover: #1e293b;
+      --text: #f1f5f9;
+      --text-strong: #ffffff;
+      --muted: #94a3b8;
+      --subtle: #cbd5e1;
+      --border: #334155;
+      --border-soft: #1e293b;
+      --accent: #67e8f9;
+      --accent-border: #22d3ee;
+      --action: #06b6d4;
+      --action-text: #020617;
+      --success: #6ee7b7;
+      --warn: #fcd34d;
+      --warn-bg: #451a03;
+      --warn-border: #78350f;
+      --danger: #fda4af;
+      --danger-bg: #4c0519;
+      --danger-border: #9f1239;
+      --info-bg: #164e63;
+      --info-border: #155e75;
+    }
+  }
+}
