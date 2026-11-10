@@ -1,0 +1,3 @@
+<p id="translation_header_status_<%= translation.id %>" class="app-page-description">
+  <%= t("common.status") %>: <%= t("statuses.#{translation.status}", default: translation.status.humanize) %> · <%= t("common.created") %> <%= l(translation.created_at, format: :long) %>
+</p>

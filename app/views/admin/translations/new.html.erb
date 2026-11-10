@@ -1,0 +1,175 @@
+<% content_for :page_title, t("workspace.title") %>
+<div class="studio-heading">
+  <div class="studio-heading-copy">
+    <p class="app-eyebrow"><%= ui_icon("sparkles", size: 16) %><%= t("workspace.studio_eyebrow") %></p>
+    <h1><%= t("workspace.title") %></h1>
+    <p class="app-page-description"><%= t("workspace.description") %></p>
+  </div>
+  <div class="studio-heading-step"><%= ui_icon("shield", size: 17) %><%= t("workspace.no_auto_inference") %></div>
+</div>
+
+<%= form_with url: admin_translations_path, method: :post,
+  data: { controller: "translation-form", action: "submit->translation-form#confirm",
+    "translation-form-count-message-value": t("workspace.charges_count", count: "__COUNT__"),
+    "translation-form-confirm-message-value": t("workspace.charges_confirm", count: "__COUNT__"),
+    "translation-form-invalid-message-value": t("workspace.invalid_model_count"),
+    "translation-form-character-message-value": t("workspace.characters_count", count: "__COUNT__"),
+    "translation-form-word-message-value": t("workspace.words_count", count: "__COUNT__"),
+    "translation-form-app-limit-value": Translation::DispatchPlanner::MAX_SOURCE_CODEPOINTS,
+    "translation-form-app-limit-message-value": t("workspace.app_length_caution", limit: "__LIMIT__"),
+    "translation-form-model-limit-message-value": t("workspace.selected_models_length_caution", models: "__MODELS__"),
+    "translation-form-glossary-unsupported-message-value": t("workspace.glossary_unsupported", models: "__MODELS__") },
+  class: "studio-form" do |f| %>
+  <%= f.hidden_field :client_request_key, value: @client_request_key %>
+  <%= f.hidden_field :cost_approved, value: "0", data: { "translation-form-target": "approval" } %>
+  <div class="studio-layout">
+    <section class="app-panel studio-editor" aria-labelledby="studio-editor-heading">
+      <div class="app-panel-content">
+        <div class="studio-panel-title">
+          <span class="app-panel-icon"><%= ui_icon("file-text", size: 20) %></span>
+          <div><p class="app-eyebrow"><%= t("workspace.step_one") %></p><h2 id="studio-editor-heading"><%= t("layout.translation_step_source") %></h2></div>
+        </div>
+        <div class="studio-language-grid">
+          <div class="studio-language-field">
+            <%= f.label :source_language, t("workspace.source_language"), class: "studio-label" %>
+            <%= f.text_field :source_language, value: "en", required: true, maxlength: 64,
+              data: { "translation-form-target": "sourceLanguage" },
+              placeholder: t("workspace.source_placeholder"), class: "studio-input" %>
+          </div>
+          <button type="button" class="studio-swap" aria-label="<%= t('workspace.swap_languages') %>"
+            title="<%= t('workspace.swap_languages') %>" data-action="click->translation-form#swapLanguages">
+            <%= ui_icon("arrow-left-right", size: 19) %>
+          </button>
+          <div class="studio-language-field">
+            <%= f.label :target_language, t("workspace.target_language"), class: "studio-label" %>
+            <%= f.text_field :target_language, value: "vi", required: true, maxlength: 64,
+              data: { "translation-form-target": "targetLanguage" },
+              placeholder: t("workspace.target_placeholder"), class: "studio-input" %>
+          </div>
+        </div>
+        <div class="studio-source-header">
+          <%= f.label :source_text, t("workspace.source_text"), class: "studio-label" %>
+          <span class="studio-source-hint"><%= ui_icon("lock", size: 14) %><%= t("workspace.text_privacy") %></span>
+        </div>
+        <%= f.text_area :source_text, rows: 13, required: true,
+          aria: { describedby: "studio_source_length_notice" },
+          data: { "translation-form-target": "source", action: "input->translation-form#updateText" },
+          placeholder: t("workspace.text_placeholder"), class: "studio-textarea" %>
+        <div class="studio-editor-meta">
+          <div class="studio-counts" aria-live="polite">
+            <span data-translation-form-target="characterCount"><%= t("workspace.characters_count", count: 0) %></span>
+            <span aria-hidden="true">·</span>
+            <span data-translation-form-target="wordCount"><%= t("workspace.words_count", count: 0) %></span>
+          </div>
+        </div>
+        <div id="studio_source_limits" class="studio-gateway-note" aria-labelledby="studio_source_limits_heading">
+          <%= ui_icon("alert-circle", size: 17) %>
+          <div class="studio-gateway-note-content">
+            <h3 id="studio_source_limits_heading" class="studio-gateway-heading"><%= t("workspace.text_limit_heading") %></h3>
+            <ul class="studio-gateway-list">
+              <li><%= t("workspace.text_limit_gateway", limit: number_with_delimiter(
+                Translation::DispatchPlanner.source_limit_for_adapter("translation_gateway_v1"),
+                delimiter: I18n.locale == :vi ? "." : ",")) %></li>
+              <li><%= t("workspace.text_limit_other") %></li>
+            </ul>
+            <p class="studio-gateway-extra"><%= t("workspace.text_limit_note") %></p>
+          </div>
+        </div>
+        <p id="studio_source_length_notice" data-translation-form-target="lengthNotice"
+          class="studio-length-warning" role="status" tabindex="-1" hidden></p>
+        <details class="studio-advanced">
+          <summary><%= ui_icon("settings", size: 17) %><span><%= t("workspace.advanced_options") %></span><%= ui_icon("chevron-down", size: 17) %></summary>
+          <div class="studio-advanced-body">
+            <div class="flex items-start gap-3">
+              <%= f.check_box :preserve_formatting, checked: true,
+                aria: { describedby: "preserve_formatting_help" },
+                class: "mt-0.5 h-4 w-4 shrink-0 accent-[var(--action)]" %>
+              <div class="min-w-0">
+                <%= f.label :preserve_formatting, t("workspace.preserve_formatting"), class: "block text-sm font-semibold" %>
+                <p id="preserve_formatting_help" class="mt-1 text-xs leading-relaxed text-[var(--muted)]"><%= t("workspace.preserve_formatting_help") %></p>
+              </div>
+            </div>
+            <div class="studio-glossary-option">
+              <label class="studio-glossary-toggle">
+                <%= f.check_box :use_glossary, checked: false, disabled: @glossary_count.zero?,
+                  data: { "translation-form-target": "glossary", action: "change->translation-form#update" },
+                  class: "h-4 w-4 accent-[var(--action)]" %>
+                <span><%= t("workspace.use_glossary") %></span>
+              </label>
+              <p class="studio-glossary-help"><%= t("workspace.glossary_help", count: @glossary_count) %></p>
+              <%= link_to t("workspace.manage_glossary"), admin_glossary_entries_path, class: "text-link studio-glossary-link" %>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <aside class="studio-model-sidebar">
+      <section class="app-panel studio-model-panel" aria-labelledby="studio-models-heading">
+        <div class="app-panel-content">
+          <div class="studio-panel-title studio-model-title">
+            <span class="app-panel-icon"><%= ui_icon("server", size: 20) %></span>
+            <div class="min-w-0"><p class="app-eyebrow"><%= t("workspace.step_two") %></p><h2 id="studio-models-heading"><%= t("workspace.choose_models") %></h2></div>
+            <span class="studio-selected-badge"><span data-translation-form-target="count">0</span>/4</span>
+          </div>
+          <p class="studio-model-summary"><%= t("workspace.model_summary") %></p>
+          <% available_model_count = @models.count do |model|
+               deployment = model.active_deployment
+               connection = deployment&.inference_connection
+               model.active? && deployment.present? && connection&.enabled? && connection&.token_configured?
+             end %>
+          <div class="studio-select-all">
+            <label for="studio-select-all-models" class="studio-select-all-label">
+              <%= tag.input type: "checkbox", id: "studio-select-all-models",
+                disabled: available_model_count.zero?,
+                data: { "translation-form-target": "selectAll", action: "change->translation-form#toggleAll" },
+                class: "studio-select-all-checkbox" %>
+              <span><%= t("workspace.select_all_models") %></span>
+            </label>
+            <p class="studio-select-all-note"><%= t("workspace.select_all_note") %></p>
+          </div>
+          <div class="studio-model-list">
+            <% @models.each do |model| %>
+              <% deployment = model.active_deployment %>
+              <% connection = deployment&.inference_connection %>
+              <% ready = model.active? && deployment && connection&.enabled? && connection&.token_configured? %>
+              <% source_limit = ready ? Translation::DispatchPlanner.source_limit_for_adapter(connection&.adapter_key) : nil %>
+              <label class="studio-model-card <%= 'is-unavailable' unless ready %>">
+                <%= check_box_tag "model_ids[]", model.id, false, disabled: !ready,
+                  data: { "translation-form-target": "checkbox",
+                    "model-name": model.display_name,
+                    "adapter-key": connection&.adapter_key,
+                    "max-source-length": source_limit,
+                    action: "change->translation-form#update" },
+                  class: "studio-model-check" %>
+                <span class="studio-model-info">
+                  <strong><%= model.display_name %></strong>
+                  <span class="studio-model-id"><%= model.model_key %></span>
+                  <span class="studio-model-provider"><%= ui_icon("plug", size: 13) %><%= connection&.name.presence || t("common.no_provider") %></span>
+                  <span class="studio-model-state <%= 'is-ready' if ready %>">
+                    <%= ui_icon(ready ? "check-circle" : "clock", size: 13) %><%= ready ? t("workspace.configured") : t("workspace.unavailable_short") %>
+                  </span>
+                  <% if ready %>
+                    <span class="studio-model-limit"><%= source_limit ? t("workspace.model_source_limit", count: source_limit) : t("workspace.model_source_limit_unknown") %></span>
+                  <% end %>
+                </span>
+              </label>
+            <% end %>
+          </div>
+          <% if available_model_count.zero? %>
+            <div class="studio-setup-note">
+              <%= ui_icon("alert-circle", size: 17) %>
+              <span><%= t("workspace.no_ready_models") %></span>
+              <%= link_to t("workspace.configure_models"), admin_settings_inference_path, class: "studio-setup-link" %>
+            </div>
+          <% end %>
+          <div class="studio-submit-area">
+            <p data-translation-form-target="warning" class="studio-charge-warning"><%= t("workspace.charges_warning") %></p>
+            <%= f.submit t("workspace.translate"), class: "app-btn-primary studio-submit-button" %>
+            <p class="studio-consent-hint"><%= ui_icon("shield", size: 14) %><%= t("workspace.confirm_before_send") %></p>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </div>
+<% end %>

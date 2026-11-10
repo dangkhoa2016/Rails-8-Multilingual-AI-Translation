@@ -1,0 +1,53 @@
+<% selected = run.status == "completed" && run.translation_request.preferred_model_id == run.translation_model_id %>
+<article id="<%= dom_id(run) %>" data-controller="clipboard"
+  data-translation-compare-completed="<%= run.status == 'completed' %>"
+  data-translation-compare-preferred="<%= selected %>"
+  data-clipboard-expand-value="<%= t('common.expand') %>"
+  data-clipboard-collapse-value="<%= t('common.collapse') %>"
+  data-clipboard-copy-value="<%= t('common.copy') %>"
+  data-clipboard-copied-value="<%= t('common.copied') %>"
+  data-clipboard-failed-value="<%= t('common.copy_failed') %>"
+  class="flex min-h-64 min-w-0 flex-col rounded-xl border <%= selected ? 'translation-card-selected' : (run.status == 'completed' ? 'border-[var(--success)]' : (run.unsupported_language? ? 'border-[var(--warn-border)]' : 'border-[var(--border)]')) %> bg-[var(--surface)] p-6">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <div><h3 class="flex items-center gap-2 font-bold"><%= ui_icon("bolt", size: 17, class_name: selected ? "text-[var(--success)]" : "text-[var(--accent)]") %><%= run.translation_model.display_name %></h3>
+      <p class="mt-1 break-words text-xs text-[var(--muted)]"><%= t("history.connection_label") %>: <%= run.translation_dispatch&.inference_connection&.name.presence || t("settings.not_configured") %> · <%= t("common.attempt") %> <%= run.attempt_no %></p></div>
+    <span class="rounded-full border border-[var(--border)] px-3 py-1 text-xs <%= run.status == 'completed' ? 'text-[var(--success)]' : 'text-[var(--warn)]' %>"><%= t("statuses.#{run.status}", default: run.status.humanize) %></span>
+  </div>
+  <% if run.status == "completed" %>
+    <% if run.is_mock_result? %><p class="mb-3 rounded-md bg-[var(--warn-bg)] p-3 text-sm text-[var(--warn)]"><%= t("history.simulated") %></p><% end %>
+    <% if run.unchanged_output? %>
+      <p class="mb-4 rounded-lg border border-[var(--warn-border)] bg-[var(--warn-bg)] p-3 text-xs leading-relaxed text-[var(--warn)]">
+        <%= ui_icon("alert-circle", size: 15, class_name: "mr-1 inline-block align-text-bottom") %>
+        <%= t("history.unchanged_output") %>
+      </p>
+    <% end %>
+    <pre data-clipboard-target="content" data-translation-compare-target="content" class="mb-5 max-h-48 min-w-0 max-w-full grow overflow-hidden whitespace-pre-wrap break-words font-sans leading-relaxed"><%= run.translation_text %></pre>
+    <div class="border-t border-[var(--border-soft)] pt-4">
+      <div class="flex flex-wrap justify-center gap-3">
+        <button type="button" class="app-btn-outline" data-action="click->clipboard#copy"><%= ui_icon("copy", size: 15) %><span data-clipboard-target="copyLabel"><%= t("common.copy") %></span></button>
+        <button type="button" class="app-btn-outline" data-action="click->clipboard#expand"><%= ui_icon("eye", size: 15) %><span data-clipboard-target="expandLabel"><%= t("common.expand") %></span></button>
+      </div>
+      <% unless run.is_mock_result? %>
+        <div class="mt-3 flex justify-center">
+          <% if selected %>
+            <button type="button" class="translation-preference-selected" disabled aria-disabled="true"><%= t("common.preferred") %></button>
+          <% else %>
+            <%= button_to t("common.set_preferred"),
+              prefer_admin_translation_path(run.translation_request, model_id: run.translation_model_id),
+              method: :patch, form: { data: { turbo: true } },
+              class: "translation-preference-action" %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% elsif run.unsupported_language? %>
+    <p class="grow text-[var(--warn)]"><%= t("history.unsupported") %></p>
+  <% elsif run.status == "failed" %>
+    <p class="grow text-[var(--danger)]"><%= t("history.failed", error: run.error_code.to_s.presence || 'UNKNOWN_ERROR') %></p>
+  <% elsif run.status == "uncertain" %>
+    <p class="grow text-[var(--warn)]"><%= t("history.uncertain", error: run.error_code.presence || "STATUS_UNVERIFIED") %></p>
+  <% else %>
+    <p class="grow animate-pulse text-[var(--muted)]"><%= t("history.processing") %></p>
+  <% end %>
+  <%= render "admin/translations/run_details", run: run %>
+</article>

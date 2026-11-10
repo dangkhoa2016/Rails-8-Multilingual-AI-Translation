@@ -1,0 +1,98 @@
+<% content_for :page_title, t("dashboard.title") %>
+<section class="dashboard-hero" aria-labelledby="dashboard-heading">
+  <div class="dashboard-hero-content">
+    <p class="dashboard-hero-eyebrow"><%= ui_icon("sparkles", size: 16) %><%= t("dashboard.eyebrow") %></p>
+    <h1 id="dashboard-heading"><%= t("dashboard.title") %></h1>
+    <p><%= t("dashboard.intro") %></p>
+    <div class="dashboard-hero-actions">
+      <%= link_to new_admin_translation_path, class: "app-btn-primary" do %><%= ui_icon("plus", size: 17) %><%= t("dashboard.new_translation") %><% end %>
+      <%= link_to admin_translations_path, class: "dashboard-hero-secondary" do %><%= ui_icon("history", size: 16) %><%= t("dashboard.view_history") %><% end %>
+    </div>
+  </div>
+  <div class="dashboard-hero-graphic" aria-hidden="true">
+    <span class="dashboard-hero-ring"></span>
+    <span class="dashboard-hero-symbol"><%= ui_icon("languages", size: 65) %></span>
+    <span class="dashboard-floating-code dashboard-code-left">EN</span>
+    <span class="dashboard-floating-code dashboard-code-right">VI</span>
+  </div>
+</section>
+
+<div class="dashboard-section-heading">
+  <div><p class="app-eyebrow"><%= t("dashboard.activity_eyebrow") %></p><h2><%= t("dashboard.overview") %></h2></div>
+  <span class="dashboard-section-note"><%= ui_icon("shield", size: 15) %><%= t("dashboard.db_only") %></span>
+</div>
+<div class="dashboard-metrics" aria-label="<%= t('dashboard.overview') %>">
+  <% [
+    ["file-text", t("dashboard.total_sessions"), @total_translations, t("dashboard.total_sessions_note")],
+    ["server", t("dashboard.ready_models"), "#{@ready_models}/#{@models.length}", t("dashboard.ready_models_note")],
+    ["check-circle", t("dashboard.completed_runs"), @completed_runs, t("dashboard.completed_runs_note")],
+    ["alert-circle", t("dashboard.needs_attention"), @needs_attention, t("dashboard.needs_attention_note")]
+  ].each do |icon, label, value, note| %>
+    <article class="dashboard-metric">
+      <span class="dashboard-metric-icon"><%= ui_icon(icon, size: 21) %></span>
+      <strong class="dashboard-metric-value"><%= value %></strong>
+      <h3><%= label %></h3><p><%= note %></p>
+    </article>
+  <% end %>
+</div>
+
+<div class="dashboard-content-grid">
+  <section class="dashboard-surface" aria-labelledby="recent-translations-title">
+    <header class="dashboard-surface-header">
+      <div><p class="app-eyebrow"><%= t("dashboard.activity_eyebrow") %></p><h2 id="recent-translations-title"><%= t("dashboard.recent_activity") %></h2><p class="dashboard-surface-description"><%= t("dashboard.recent_description") %></p></div>
+      <%= link_to admin_translations_path, class: "dashboard-inline-link" do %><%= t("dashboard.view_all") %><%= ui_icon("arrow-right", size: 16) %><% end %>
+    </header>
+    <% if @recent_translations.any? %>
+      <div class="dashboard-activity-list">
+        <% @recent_translations.each do |translation| %>
+          <%= link_to admin_translation_path(translation), class: "dashboard-activity-row" do %>
+            <span class="dashboard-activity-icon"><%= ui_icon("languages", size: 19) %></span>
+            <span class="dashboard-activity-main"><strong><%= translation.source_language %> → <%= translation.target_language %></strong><small><%= t("dashboard.session_number", number: translation.id.to_s.first(8)) %> · <%= l(translation.created_at, format: :long) %></small></span>
+            <span class="dashboard-activity-tail"><span class="app-status-pill"><%= t("statuses.#{translation.status}", default: translation.status.humanize) %></span><%= ui_icon("chevron-right", size: 17) %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="dashboard-empty">
+        <span class="dashboard-empty-icon"><%= ui_icon("file-text", size: 27) %></span>
+        <h3><%= t("dashboard.empty_title") %></h3><p><%= t("dashboard.empty_description") %></p>
+        <%= link_to new_admin_translation_path, class: "app-btn-outline" do %><%= ui_icon("plus", size: 16) %><%= t("dashboard.new_translation") %><% end %>
+      </div>
+    <% end %>
+  </section>
+
+  <aside class="dashboard-side-panel" aria-labelledby="dashboard-setup-title">
+    <header class="dashboard-surface-header"><div><p class="app-eyebrow"><%= t("dashboard.setup_eyebrow") %></p><h2 id="dashboard-setup-title"><%= t("dashboard.get_started") %></h2><p class="dashboard-surface-description"><%= t("dashboard.setup_description") %></p></div></header>
+    <ol class="dashboard-setup-list">
+      <% [
+        [t("dashboard.step_connect"), t("dashboard.step_connect_description")],
+        [t("dashboard.step_assign"), t("dashboard.step_assign_description")],
+        [t("dashboard.step_compare"), t("dashboard.step_compare_description")]
+      ].each_with_index do |(heading, description), index| %>
+        <li><span class="dashboard-setup-number"><%= format("%02d", index + 1) %></span><span><strong><%= heading %></strong><small><%= description %></small></span></li>
+      <% end %>
+    </ol>
+    <% if @ready_models.zero? %>
+      <div class="dashboard-setup-notice" role="status"><%= ui_icon("alert-circle", size: 17) %><span><%= t("dashboard.no_ready_models") %></span></div>
+    <% end %>
+    <%= link_to admin_settings_inference_path, class: "app-btn-outline dashboard-setup-action" do %><%= ui_icon("settings", size: 16) %><%= t("dashboard.configure_models") %><% end %>
+  </aside>
+</div>
+
+<section class="dashboard-surface dashboard-model-surface" aria-labelledby="dashboard-models-title">
+  <header class="dashboard-surface-header">
+    <div><p class="app-eyebrow"><%= t("dashboard.models_eyebrow") %></p><h2 id="dashboard-models-title"><%= t("dashboard.models_title") %></h2><p class="dashboard-surface-description"><%= t("dashboard.models_description") %></p></div>
+    <%= link_to admin_settings_inference_path, class: "dashboard-inline-link" do %><%= t("dashboard.manage_models") %><%= ui_icon("arrow-right", size: 16) %><% end %>
+  </header>
+  <div class="dashboard-model-grid">
+    <% @model_connections.each do |item| %>
+      <% model, connection, ready = item.values_at(:model, :connection, :ready) %>
+      <article class="dashboard-model-card">
+        <div class="dashboard-model-card-heading"><span class="dashboard-model-card-icon"><%= ui_icon("server", size: 19) %></span><span class="dashboard-readiness <%= ready ? 'is-ready' : '' %>"><%= ready ? t("dashboard.configured") : t("dashboard.not_configured") %></span></div>
+        <h3><%= model.display_name %></h3><p class="dashboard-model-key"><%= model.model_key %></p>
+        <p class="dashboard-model-provider"><%= ui_icon("plug", size: 14) %><%= connection&.name.presence || t("dashboard.no_provider") %></p>
+      </article>
+    <% end %>
+  </div>
+  <p class="dashboard-model-disclaimer"><%= ui_icon("alert-circle", size: 15) %><%= t("dashboard.readiness_disclaimer") %></p>
+</section>

@@ -1,0 +1,29 @@
+<% content_for :page_title, t("help.title") %>
+<div class="app-page-heading">
+  <div>
+    <p class="app-eyebrow"><%= ui_icon("circle-help", size: 16) %><%= t("layout.workspace_nav") %></p>
+    <h1><%= t("help.title") %></h1>
+    <p class="app-page-description"><%= t("help.description") %></p>
+  </div>
+</div>
+<section class="app-panel help-quick-links" aria-labelledby="help_links_heading">
+  <div class="app-panel-content">
+    <h2 id="help_links_heading" class="app-section-title"><%= ui_icon("sparkles", size: 18) %><%= t("help.links_title") %></h2>
+    <div class="help-links-grid">
+      <%= link_to new_admin_translation_path, class: "help-quick-link" do %><%= ui_icon("languages", size: 18) %><%= t("help.studio_link") %><% end %>
+      <%= link_to admin_glossary_entries_path, class: "help-quick-link" do %><%= ui_icon("book-open", size: 18) %><%= t("help.glossary_link") %><% end %>
+      <%= link_to admin_settings_inference_path, class: "help-quick-link" do %><%= ui_icon("settings", size: 18) %><%= t("help.settings_link") %><% end %>
+      <%= link_to admin_translations_path, class: "help-quick-link" do %><%= ui_icon("history", size: 18) %><%= t("help.history_link") %><% end %>
+    </div>
+  </div>
+</section>
+<section class="app-panel help-faq-panel">
+  <div class="app-panel-content">
+    <% %w[studio limits glossary glossary_snapshot glossary_matching model history export safety].each_with_index do |section, index| %>
+      <details class="help-faq" <%= "open" if index.zero? %>>
+        <summary><%= ui_icon("circle-help", size: 18) %><span><%= t("help.#{section}_title") %></span><%= ui_icon("chevron-down", size: 17) %></summary>
+        <p><%= t("help.#{section}_text") %></p>
+      </details>
+    <% end %>
+  </div>
+</section>

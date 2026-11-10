@@ -1,0 +1,32 @@
+<% content_for :page_title, t("errors.not_found_title") %>
+<section class="app-not-found" aria-labelledby="not-found-title">
+  <div class="app-not-found-illustration" aria-hidden="true">
+    <span class="app-not-found-orbit app-not-found-orbit-outer"></span>
+    <span class="app-not-found-orbit app-not-found-orbit-inner"></span>
+    <span class="app-not-found-number">404</span>
+    <span class="app-not-found-spark app-not-found-spark-one"></span>
+    <span class="app-not-found-spark app-not-found-spark-two"></span>
+  </div>
+
+  <div class="app-not-found-content">
+    <p class="app-eyebrow app-not-found-eyebrow"><%= ui_icon("search", size: 17) %><%= t("errors.not_found_eyebrow") %></p>
+    <h1 id="not-found-title" class="app-not-found-title"><%= t("errors.not_found_title") %></h1>
+    <p class="app-not-found-description"><%= t("errors.not_found_description") %></p>
+
+    <div class="app-not-found-actions">
+      <% if current_user&.admin? %>
+        <%= link_to root_path, class: "app-btn-primary" do %>
+          <%= ui_icon("languages", size: 17) %><%= t("errors.not_found_home") %>
+        <% end %>
+        <%= link_to admin_translations_path, class: "app-btn-outline" do %>
+          <%= ui_icon("history", size: 17) %><%= t("errors.not_found_history") %>
+        <% end %>
+      <% else %>
+        <%= link_to login_path, class: "app-btn-primary" do %>
+          <%= ui_icon("arrow-right", size: 17) %><%= t("errors.not_found_sign_in") %>
+        <% end %>
+      <% end %>
+    </div>
+    <p class="app-not-found-footer"><%= t("errors.not_found_code") %></p>
+  </div>
+</section>

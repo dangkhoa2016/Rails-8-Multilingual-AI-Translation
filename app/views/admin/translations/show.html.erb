@@ -1,0 +1,68 @@
+<% content_for :page_title do %><%= safe_join([@translation.source_language, " → ", @translation.target_language]) %><% end %>
+<%= turbo_stream_from @translation %>
+<div data-controller="translation-progress"
+  data-translation-progress-url-value="<%= progress_admin_translation_path(@translation) %>"
+  data-translation-progress-finished-value="<%= @runs.all?(&:terminal?) %>"
+  data-translation-progress-interval-value="5000">
+<%= render "admin/translations/signal", translation: @translation %>
+<div class="app-page-heading">
+  <div>
+    <p class="app-eyebrow"><%= ui_icon("history", size: 16) %><%= t("history.session") %> · <%= @translation.id %></p>
+    <h1 class="flex items-center gap-3"><%= ui_icon("languages", size: 30, class_name: "text-[var(--accent)]") %><%= @translation.source_language %> → <%= @translation.target_language %></h1>
+    <%= render "admin/translations/status_line", translation: @translation %>
+    <% if @translation.use_glossary? %>
+      <p class="glossary-used-note"><%= ui_icon("book-open", size: 15) %><%= t("history.glossary_applied", count: @translation.glossary_terms.size) %></p>
+    <% end %>
+  </div>
+  <div class="flex flex-wrap gap-3">
+    <%= button_to refresh_status_admin_translation_path(@translation), method: :post, class: "app-btn-outline" do %>
+      <%= ui_icon("rotate", size: 16) %><%= t("history.refresh") %>
+    <% end %>
+    <%= link_to new_admin_translation_path, class: "app-btn-primary" do %>
+      <%= ui_icon("plus", size: 17) %><%= t("history.new") %>
+    <% end %>
+  </div>
+</div>
+<section class="history-export-bar" aria-label="<%= t('history_export.heading') %>">
+  <div>
+    <h2 class="history-export-heading"><%= ui_icon("file-text", size: 17) %><%= t("history_export.heading") %></h2>
+    <p class="history-export-help"><%= t("history_export.description") %></p>
+  </div>
+  <div class="history-export-links">
+    <% %w[txt md json].each do |format| %>
+      <%= link_to export_admin_translation_path(@translation, file_format: format),
+        class: "history-export-link", data: { turbo: false } do %>
+        <%= ui_icon("download", size: 15) %><%= t("history_export.format_#{format}") %>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+<%= render "admin/translations/progress", translation: @translation, runs: @runs %>
+<%= render "admin/translations/source_panel", translation: @translation, runs: @runs %>
+<div class="translation-compare-workspace" data-controller="translation-compare">
+<div class="mb-5">
+  <div class="compare-section-header">
+    <h2 class="app-section-title"><span class="app-panel-icon"><%= ui_icon("list-checks") %></span><%= t("history.results") %></h2>
+    <div class="compare-toolbar" aria-label="<%= t('history.view_options') %>">
+      <div class="compare-view-switch" role="group" aria-label="<%= t('history.layout_options') %>">
+        <button type="button" class="compare-view-button is-active" data-translation-compare-target="twoButton"
+          aria-pressed="true" data-action="click->translation-compare#twoColumns"><%= ui_icon("list-checks", size: 15) %><%= t("history.two_columns") %></button>
+        <button type="button" class="compare-view-button" data-translation-compare-target="fourButton"
+          aria-pressed="false" data-action="click->translation-compare#fourColumns"><%= ui_icon("layout-dashboard", size: 15) %><%= t("history.four_columns") %></button>
+      </div>
+      <button type="button" class="app-btn-outline compare-diff-button" data-translation-compare-target="diffButton"
+        aria-pressed="false" data-action="click->translation-compare#toggleDifferences"><%= ui_icon("search", size: 15) %><%= t("history.highlight_differences") %></button>
+    </div>
+  </div>
+  <p class="mt-2 text-sm text-[var(--muted)]"><%= t("history.results_description") %></p>
+  <p class="mt-2 text-sm text-[var(--subtle)]"><%= t("history.preferred_explanation") %></p>
+  <% if @runs.any?(&:unchanged_output?) %>
+    <p class="mt-3 rounded-lg border border-[var(--warn-border)] bg-[var(--warn-bg)] px-4 py-3 text-sm leading-relaxed text-[var(--warn)]">
+      <%= t("history.unchanged_summary", source: @translation.source_language, target: @translation.target_language) %>
+    </p>
+  <% end %>
+  <p class="compare-disclaimer"><%= ui_icon("alert-circle", size: 15) %><%= t("history.diff_explanation") %></p>
+</div>
+<%= render "admin/translations/results", translation: @translation, runs: @runs %>
+</div>
+</div>

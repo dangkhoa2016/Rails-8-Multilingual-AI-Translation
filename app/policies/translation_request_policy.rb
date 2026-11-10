@@ -4,5 +4,7 @@ class TranslationRequestPolicy < ApplicationPolicy
   end
 
   alias refresh_status? show?
+  alias progress? show?
   alias prefer? show?
+  alias export? show?
 end

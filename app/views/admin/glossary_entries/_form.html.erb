@@ -1,0 +1,29 @@
+<%= form_with model: [:admin, entry], class: "glossary-form" do |f| %>
+  <% if entry.errors.any? %>
+    <div class="glossary-errors" role="alert">
+      <strong><%= t("glossary.validation_title") %></strong>
+      <ul><% entry.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
+    </div>
+  <% end %>
+  <div class="glossary-form-grid">
+    <div><%= f.label :source_language, t("glossary.source_language"), class: "studio-label" %>
+      <%= f.text_field :source_language, class: "studio-input", maxlength: 64, required: true, placeholder: t("glossary.source_language_hint") %></div>
+    <div><%= f.label :target_language, t("glossary.target_language"), class: "studio-label" %>
+      <%= f.text_field :target_language, class: "studio-input", maxlength: 64, required: true, placeholder: t("glossary.target_language_hint") %></div>
+    <div><%= f.label :source_term, t("glossary.source_term"), class: "studio-label" %>
+      <%= f.text_field :source_term, class: "studio-input", maxlength: 120, required: true, placeholder: t("glossary.source_term_hint") %></div>
+    <div><%= f.label :target_term, t("glossary.target_term"), class: "studio-label" %>
+      <%= f.text_field :target_term, class: "studio-input", maxlength: 120, required: true, placeholder: t("glossary.target_term_hint") %></div>
+  </div>
+  <div class="glossary-form-notes">
+    <%= f.label :notes, t("glossary.notes"), class: "studio-label" %>
+    <%= f.text_area :notes, rows: 3, maxlength: 320, class: "studio-input glossary-notes-input", placeholder: t("glossary.notes_hint") %>
+    <p class="glossary-field-help"><%= t("glossary.notes_note") %></p>
+  </div>
+  <label class="glossary-active-toggle"><%= f.check_box :active, class: "studio-model-check" %><span><%= t("glossary.active_label") %></span></label>
+  <p class="glossary-field-help"><%= t("glossary.pair_matching") %></p>
+  <div class="glossary-form-actions">
+    <%= f.submit t("glossary.save"), class: "app-btn-primary" %>
+    <%= link_to t("glossary.cancel"), admin_glossary_entries_path, class: "app-btn-outline" %>
+  </div>
+<% end %>

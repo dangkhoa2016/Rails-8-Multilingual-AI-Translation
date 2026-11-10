@@ -8,10 +8,15 @@ Rails.application.routes.draw do
   resource :preferences, only: :update
 
   namespace :admin do
+    get "dashboard", to: "dashboard#index", as: :dashboard
+    get "help", to: "help#index", as: :help
+    resources :glossary_entries, only: %i[index new create edit update destroy]
     get "security", to: "security#index", as: :security
     resources :translations, only: %i[index new create show] do
       member { post :refresh_status }
+      member { get :progress }
       member { patch :prefer }
+      member { get :export }
     end
     namespace :settings do
       resource :inference, only: :show, controller: :inference
@@ -22,4 +27,7 @@ Rails.application.routes.draw do
       resources :translation_models, only: :update
     end
   end
+
+  # Keep this route last so it never shadows an existing controller action.
+  match "*unmatched", to: "errors#not_found", via: :all, format: false
 end

@@ -1,0 +1,137 @@
+<% content_for :page_title, t("history.title") %>
+<div class="app-page-heading">
+  <div>
+    <p class="app-eyebrow"><%= ui_icon("history", size: 16) %><%= t("layout.workspace_nav") %></p>
+    <h1><%= t("history.title") %></h1>
+    <p class="app-page-description"><%= t("history.description") %></p>
+  </div>
+  <%= link_to new_admin_translation_path, class: "app-btn-primary" do %>
+    <%= ui_icon("plus", size: 17) %><%= t("history.new") %>
+  <% end %>
+</div>
+
+<section class="app-panel history-filter-panel" aria-labelledby="history-filter-title">
+  <div class="app-panel-content">
+    <div class="history-filter-header">
+      <div>
+        <h2 id="history-filter-title" class="app-section-title">
+          <%= ui_icon("search", size: 19) %><%= t("history_filters.heading") %>
+        </h2>
+        <p class="history-filter-description"><%= t("history_filters.description") %></p>
+      </div>
+      <% if @has_filters %>
+        <%= link_to admin_translations_path, class: "text-link history-clear-link" do %>
+          <%= ui_icon("x", size: 14) %><%= t("history_filters.clear") %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= form_with url: admin_translations_path, method: :get, local: true, class: "history-filter-form" do %>
+      <div class="history-filter-main">
+        <div class="history-filter-field history-search-field">
+          <%= label_tag :q, t("history_filters.query"), class: "history-filter-label" %>
+          <%= text_field_tag :q, @query, class: "studio-input", maxlength: 80,
+            placeholder: t("history_filters.query_placeholder") %>
+        </div>
+        <div class="history-filter-field">
+          <%= label_tag :status, t("history_filters.status"), class: "history-filter-label" %>
+          <%= select_tag :status,
+            options_for_select([[t("history_filters.all_statuses"), ""]] +
+              Admin::TranslationsController::HISTORY_STATUSES.map { |status| [t("statuses.#{status}"), status] }, @status_filter),
+            class: "studio-input history-select" %>
+        </div>
+        <div class="history-filter-field">
+          <%= label_tag :source_language, t("history_filters.source_language"), class: "history-filter-label" %>
+          <%= text_field_tag :source_language, @source_filter, class: "studio-input",
+            maxlength: 64, placeholder: t("history_filters.language_placeholder") %>
+        </div>
+        <div class="history-filter-field">
+          <%= label_tag :target_language, t("history_filters.target_language"), class: "history-filter-label" %>
+          <%= text_field_tag :target_language, @target_filter, class: "studio-input",
+            maxlength: 64, placeholder: t("history_filters.language_placeholder") %>
+        </div>
+      </div>
+      <div class="history-filter-bottom">
+        <div class="history-filter-field">
+          <%= label_tag :from, t("history_filters.from_date"), class: "history-filter-label" %>
+          <%= date_field_tag :from, params[:from].to_s.first(10), class: "studio-input" %>
+        </div>
+        <div class="history-filter-field">
+          <%= label_tag :to, t("history_filters.to_date"), class: "history-filter-label" %>
+          <%= date_field_tag :to, params[:to].to_s.first(10), class: "studio-input" %>
+        </div>
+        <%= button_tag type: :submit, class: "app-btn-primary history-filter-submit" do %>
+          <%= ui_icon("search", size: 16) %><%= t("history_filters.apply") %>
+        <% end %>
+      </div>
+    <% end %>
+    <p class="history-search-privacy"><%= ui_icon("lock", size: 14) %><%= t("history_filters.privacy") %></p>
+  </div>
+</section>
+
+<section class="app-panel history-results-panel" aria-labelledby="history-results-heading">
+  <div class="history-results-header">
+    <div>
+      <h2 id="history-results-heading" class="app-section-title"><%= ui_icon("history", size: 20) %><%= t("history_filters.results_heading") %></h2>
+      <p class="history-filter-description"><%= t("history_filters.results_count", count: @total_count) %></p>
+    </div>
+    <% if @translations.any? %>
+      <span class="app-status-pill"><%= t("history_filters.page", current: @page, total: @page_count) %></span>
+    <% end %>
+  </div>
+
+  <% if @translations.empty? %>
+    <div class="app-empty-state">
+      <div class="app-empty-icon"><%= ui_icon(@has_filters ? "search" : "file-text", size: 28) %></div>
+      <h3><%= t(@has_filters ? "history_filters.no_matches_title" : "layout.history_empty_title") %></h3>
+      <p><%= t(@has_filters ? "history_filters.no_matches_description" : "layout.history_empty_description") %></p>
+      <%= link_to (@has_filters ? admin_translations_path : new_admin_translation_path), class: "app-btn-primary mt-5" do %>
+        <%= ui_icon(@has_filters ? "x" : "sparkles", size: 17) %>
+        <%= t(@has_filters ? "history_filters.clear" : "history.new") %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="history-records">
+      <% @translations.each do |translation| %>
+        <%= link_to admin_translation_path(translation), class: "history-record" do %>
+          <span class="history-record-leading"><%= ui_icon("languages", size: 19) %></span>
+          <span class="history-record-main">
+            <span class="history-record-language"><%= translation.source_language %>
+              <span aria-hidden="true" class="history-record-arrow">→</span>
+              <%= translation.target_language %></span>
+            <span class="history-record-preview"><%= truncate(translation.source_text, length: 120) %></span>
+            <span class="history-record-number"><%= t("history_filters.session_number", id: translation.id) %></span>
+          </span>
+          <span class="history-record-details">
+            <span class="app-status-pill"><%= t("statuses.#{translation.status}", default: translation.status.humanize) %></span>
+            <time datetime="<%= translation.created_at.iso8601 %>"><%= l(translation.created_at, format: :long) %></time>
+          </span>
+          <%= ui_icon("chevron-right", size: 18, class_name: "history-record-chevron") %>
+        <% end %>
+      <% end %>
+    </div>
+    <nav class="history-pagination" aria-label="<%= t('history_filters.pagination') %>">
+      <p><%= t("history_filters.showing", first: ((@page - 1) * Admin::TranslationsController::HISTORY_PAGE_SIZE) + 1,
+        last: [@page * Admin::TranslationsController::HISTORY_PAGE_SIZE, @total_count].min, total: @total_count) %></p>
+      <div class="history-pagination-actions">
+        <% if @page > 1 %>
+          <%= link_to admin_translations_path(@filter_params.merge(page: @page - 1)),
+            class: "history-page-link", rel: "prev", aria: { label: t("history_filters.previous") } do %>
+            <%= ui_icon("chevron-left", size: 15) %><%= t("history_filters.previous") %>
+          <% end %>
+        <% end %>
+        <% ([1, @page - 1].max..[@page_count, @page + 1].min).each do |page| %>
+          <%= link_to page, admin_translations_path(@filter_params.merge(page: page)),
+            class: "history-page-link #{'is-current' if page == @page}",
+            aria: { current: (page == @page ? "page" : nil), label: t("history_filters.page_number", number: page) } %>
+        <% end %>
+        <% if @page < @page_count %>
+          <%= link_to admin_translations_path(@filter_params.merge(page: @page + 1)),
+            class: "history-page-link", rel: "next", aria: { label: t("history_filters.next") } do %>
+            <%= t("history_filters.next") %><%= ui_icon("chevron-right", size: 15) %>
+          <% end %>
+        <% end %>
+      </div>
+    </nav>
+  <% end %>
+</section>

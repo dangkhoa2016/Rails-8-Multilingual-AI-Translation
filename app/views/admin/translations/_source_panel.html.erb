@@ -1,0 +1,51 @@
+<% preferred_run = runs.find do |run|
+     run.translation_model_id == translation.preferred_model_id &&
+       run.status == "completed" && !run.is_mock_result?
+   end %>
+<% expanded = local_assigns.fetch(:expanded, false) && preferred_run.present? %>
+<section id="translation_source_<%= translation.id %>" class="app-panel mb-8"
+  data-controller="translation-source"
+  data-translation-source-view-selected-value="<%= t("history.view_selected") %>"
+  data-translation-source-hide-selected-value="<%= t("history.hide_selected") %>">
+  <div class="app-panel-content">
+    <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+      <h2 class="app-panel-heading !mb-0">
+        <span class="app-panel-icon"><%= ui_icon("file-text") %></span>
+        <%= t("history.original") %>
+        <span class="translation-comparison-locale"><%= translation.source_language %></span>
+      </h2>
+      <% if preferred_run %>
+        <button type="button" class="app-btn-outline"
+          data-translation-source-target="toggle"
+          data-action="click->translation-source#toggle"
+          aria-controls="translation_source_selected_<%= translation.id %>"
+          aria-expanded="<%= expanded %>">
+          <%= ui_icon("eye", size: 16) %>
+          <span data-translation-source-target="label"><%= expanded ? t("history.hide_selected") : t("history.view_selected") %></span>
+        </button>
+      <% end %>
+    </div>
+
+    <div id="translation_source_original_<%= translation.id %>" data-translation-source-target="original">
+      <pre class="min-w-0 max-w-full whitespace-pre-wrap break-words font-sans leading-relaxed text-[var(--text)]"><%= translation.source_text %></pre>
+    </div>
+    <% if preferred_run %>
+      <div id="translation_source_selected_<%= translation.id %>"
+        class="translation-comparison-reveal<%= ' is-open' if expanded %>"
+        data-translation-source-target="selected"
+        aria-hidden="<%= !expanded %>">
+        <div class="translation-comparison-inner">
+          <div class="translation-comparison-body">
+            <div class="mb-3 flex flex-wrap items-center gap-3">
+              <h3 class="text-base font-bold text-[var(--success)]">
+                <%= t("history.selected_from_model", model: preferred_run.translation_model.display_name) %>
+              </h3>
+              <span class="translation-comparison-locale"><%= translation.target_language %></span>
+            </div>
+            <pre class="min-w-0 max-w-full whitespace-pre-wrap break-words font-sans leading-relaxed text-[var(--text)]"><%= preferred_run.translation_text %></pre>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

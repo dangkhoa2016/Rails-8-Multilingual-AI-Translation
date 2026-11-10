@@ -1,0 +1,8 @@
+<% content_for :page_title, t("glossary.new") %>
+<div class="app-page-heading">
+  <div><p class="app-eyebrow"><%= ui_icon("book-open", size: 16) %><%= t("glossary.title") %></p>
+    <h1><%= t("glossary.new") %></h1>
+    <p class="app-page-description"><%= t("glossary.form_description") %></p>
+  </div>
+</div>
+<section class="app-panel glossary-form-panel"><div class="app-panel-content"><%= render "form", entry: @entry %></div></section>

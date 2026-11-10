@@ -1,0 +1,91 @@
+<% content_for :page_title, t("glossary.title") %>
+<div class="app-page-heading">
+  <div>
+    <p class="app-eyebrow"><%= ui_icon("book-open", size: 16) %><%= t("layout.workspace_nav") %></p>
+    <h1><%= t("glossary.title") %></h1>
+    <p class="app-page-description"><%= t("glossary.description") %></p>
+  </div>
+  <%= link_to new_admin_glossary_entry_path, class: "app-btn-primary" do %><%= ui_icon("plus", size: 17) %><%= t("glossary.new") %><% end %>
+</div>
+<section class="app-panel glossary-info">
+  <div class="app-panel-content">
+    <h2 class="app-section-title"><%= ui_icon("shield", size: 19) %><%= t("glossary.privacy_title") %></h2>
+    <p><%= t("glossary.privacy_note") %></p>
+    <p><%= t("glossary.adapter_note") %></p>
+  </div>
+</section>
+<section class="app-panel glossary-filters">
+  <div class="app-panel-content">
+    <h2 class="app-section-title"><%= ui_icon("search", size: 19) %><%= t("glossary.filters") %></h2>
+    <%= form_with url: admin_glossary_entries_path, method: :get, local: true, class: "glossary-filter-form" do %>
+      <div>
+        <%= label_tag :source_language, t("glossary.source_language"), class: "studio-label" %>
+        <%= text_field_tag :source_language, @source_filter, maxlength: 64, class: "studio-input", placeholder: t("glossary.any_language") %>
+      </div>
+      <div>
+        <%= label_tag :target_language, t("glossary.target_language"), class: "studio-label" %>
+        <%= text_field_tag :target_language, @target_filter, maxlength: 64, class: "studio-input", placeholder: t("glossary.any_language") %>
+      </div>
+      <div>
+        <%= label_tag :active, t("glossary.status"), class: "studio-label" %>
+        <%= select_tag :active, options_for_select([[t("glossary.all"), ""], [t("glossary.active"), "true"], [t("glossary.inactive"), "false"]], @active_filter), class: "studio-input" %>
+      </div>
+      <%= button_tag type: :submit, class: "app-btn-primary" do %><%= ui_icon("search", size: 16) %><%= t("glossary.apply") %><% end %>
+      <% if @has_filters %><%= link_to t("glossary.clear"), admin_glossary_entries_path, class: "text-link" %><% end %>
+    <% end %>
+  </div>
+</section>
+<section class="app-panel">
+  <div class="history-results-header">
+    <div><h2 class="app-section-title"><%= ui_icon("book-open", size: 20) %><%= t("glossary.entries") %></h2>
+      <p class="history-filter-description"><%= t("glossary.count", count: @total_count) %></p>
+    </div>
+  </div>
+  <% if @entries.empty? %>
+    <div class="app-empty-state">
+      <div class="app-empty-icon"><%= ui_icon("book-open", size: 28) %></div>
+      <h3><%= t(@has_filters ? "glossary.no_matches" : "glossary.empty_title") %></h3>
+      <p><%= t(@has_filters ? "glossary.filter_hint" : "glossary.empty_description") %></p>
+      <%= link_to (@has_filters ? admin_glossary_entries_path : new_admin_glossary_entry_path), class: "app-btn-primary mt-5" do %>
+        <%= ui_icon(@has_filters ? "x" : "plus", size: 17) %><%= t(@has_filters ? "glossary.clear" : "glossary.new") %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="glossary-entry-list">
+      <% @entries.each do |entry| %>
+        <article id="<%= dom_id(entry) %>" class="glossary-entry-row">
+          <div class="glossary-entry-content">
+            <p class="glossary-pair"><%= entry.source_language %> <span>→</span> <%= entry.target_language %></p>
+            <div class="glossary-terms"><strong><%= entry.source_term %></strong><%= ui_icon("arrow-left-right", size: 15) %><strong><%= entry.target_term %></strong></div>
+            <% if entry.notes.present? %><p class="glossary-note"><%= entry.notes %></p><% end %>
+          </div>
+          <div class="glossary-entry-actions">
+            <span class="app-status-pill"><%= t(entry.active? ? "glossary.active" : "glossary.inactive") %></span>
+            <%= link_to edit_admin_glossary_entry_path(entry), class: "app-btn-outline" do %><%= ui_icon("edit", size: 15) %><%= t("glossary.edit") %><% end %>
+            <%= button_to admin_glossary_entry_path(entry), method: :delete,
+              form: { data: { turbo_confirm: t("glossary.delete_confirm") } }, class: "app-btn-outline glossary-danger" do %>
+              <%= ui_icon("x", size: 15) %><%= t("glossary.delete") %>
+            <% end %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+    <% if @page_count > 1 %>
+      <nav class="history-pagination" aria-label="<%= t('glossary.pagination') %>">
+        <p><%= t("glossary.page", current: @page, total: @page_count) %></p>
+        <div class="history-pagination-actions">
+          <% if @page > 1 %>
+            <%= link_to admin_glossary_entries_path(@filter_params.merge(page: @page - 1)), class: "history-page-link", rel: "prev" do %>
+              <%= ui_icon("chevron-left", size: 15) %><%= t("glossary.previous") %>
+            <% end %>
+          <% end %>
+          <% if @page < @page_count %>
+            <%= link_to admin_glossary_entries_path(@filter_params.merge(page: @page + 1)), class: "history-page-link", rel: "next" do %>
+              <%= t("glossary.next") %><%= ui_icon("chevron-right", size: 15) %>
+            <% end %>
+          <% end %>
+        </div>
+      </nav>
+    <% end %>
+  <% end %>
+</section>
