@@ -1,0 +1,23 @@
+<% snapshot = event.changes_summary || {} %>
+<% model_name = snapshot["model_name"].presence || event.translation_model&.display_name %>
+<% model_key = snapshot["model_key"].presence || event.translation_model&.model_key %>
+<% connection_name = snapshot["connection_name"].presence || event.inference_connection&.name %>
+<div class="app-audit-entry app-audit-entry--<%= event.action.dasherize %>">
+  <div class="min-w-0">
+    <strong class="app-audit-title"><%= t("settings.audit_actions.#{event.action}", default: event.action.humanize) %></strong>
+    <% if model_name.present? %>
+      <p class="app-audit-subject">
+        <%= t("settings.audit_model_subject", name: model_name, key: model_key || t("common.unknown")) %>
+      </p>
+    <% elsif event.translation_model_id.present? %>
+      <p class="app-audit-subject"><%= t("settings.audit_model_missing", id: event.translation_model_id) %></p>
+    <% end %>
+    <% if connection_name.present? %>
+      <p class="app-audit-connection"><%= t("settings.audit_connection_subject", name: connection_name) %></p>
+    <% end %>
+    <p class="mt-1 break-all text-xs text-[var(--muted)]"><%= t("settings.audit_by", email: event.user.email) %></p>
+  </div>
+  <time class="shrink-0 text-xs text-[var(--muted)]" datetime="<%= event.created_at.iso8601 %>">
+    <%= l(event.created_at, format: :short) %>
+  </time>
+</div>
