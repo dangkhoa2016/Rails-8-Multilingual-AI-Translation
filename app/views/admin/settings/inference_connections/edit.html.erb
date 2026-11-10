@@ -1,0 +1,12 @@
+<% content_for :page_title, t("settings.edit_title") %>
+<div class="app-page-heading">
+  <div>
+    <p class="app-eyebrow"><%= ui_icon("edit", size: 16) %><%= t("layout.administration_nav") %></p>
+    <h1><%= t("settings.edit_title") %></h1>
+    <p class="app-page-description"><%= t("settings.description") %></p>
+  </div>
+  <%= link_to admin_settings_inference_connections_path, class: "app-btn-outline" do %>
+    <%= ui_icon("arrow-right", size: 16) %><%= t("settings.connections_title") %>
+  <% end %>
+</div>
+<%= render "form", connection: @connection %>

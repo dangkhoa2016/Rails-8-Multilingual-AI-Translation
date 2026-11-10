@@ -1,0 +1,241 @@
+<% content_for :page_title, t("settings.title") %>
+<div data-controller="connection-probe"
+  data-connection-probe-intro-value="<%= t('settings.probe_modal_intro', name: '__NAME__') %>"
+  data-connection-probe-ready-value="<%= t('settings.probe_modal_ready') %>"
+  data-connection-probe-loading-value="<%= t('settings.probe_modal_loading') %>"
+  data-connection-probe-success-value="<%= t('settings.probe_modal_success') %>"
+  data-connection-probe-error-value="<%= t('settings.probe_modal_error') %>"
+  data-connection-probe-count-value="<%= t('settings.probe_modal_count', count: '__COUNT__') %>"
+  data-connection-probe-no-catalog-value="<%= t('settings.probe_modal_unlisted') %>"
+  data-connection-probe-session-value="<%= t('settings.probe_modal_session') %>"
+  data-connection-probe-rate-limit-value="<%= t('settings.probe_modal_rate_limit') %>"
+  data-connection-probe-unexpected-value="<%= t('settings.probe_modal_unexpected') %>"
+  data-connection-probe-timeout-value="<%= t('settings.probe_modal_timeout') %>">
+<div class="app-page-heading">
+  <div>
+    <p class="app-eyebrow"><%= ui_icon("settings", size: 17) %><%= t("settings.eyebrow") %></p>
+    <h1><%= t("settings.title") %></h1>
+    <p class="app-page-description"><%= t("settings.description") %></p>
+  </div>
+  <%= link_to t("settings.new_connection"), new_admin_settings_inference_connection_path, class: "app-btn-primary" %>
+</div>
+
+<% enabled_connections = @connections.select(&:enabled?) %>
+<% if @connections.empty? %>
+  <section class="mb-8 rounded-xl border border-[var(--accent-border)] bg-[var(--surface)] p-6" aria-label="<%= t('settings.connection_setup_title') %>">
+    <h2 class="text-lg font-semibold"><%= t("settings.connection_setup_title") %></h2>
+    <p class="mt-2 max-w-3xl text-sm text-[var(--muted)]"><%= t("settings.connection_setup_description") %></p>
+    <%= link_to t("settings.connection_setup_action"), new_admin_settings_inference_connection_path,
+      class: "mt-4 inline-flex rounded-lg bg-[var(--action)] px-4 py-3 text-sm font-semibold text-[var(--action-text)]" %>
+  </section>
+<% elsif enabled_connections.empty? %>
+  <section class="mb-8 rounded-xl border border-[var(--warn-border)] bg-[var(--surface)] p-6">
+    <h2 class="text-lg font-semibold"><%= t("settings.connection_no_enabled_title") %></h2>
+    <p class="mt-2 text-sm text-[var(--muted)]"><%= t("settings.connection_no_enabled_description") %></p>
+    <%= link_to t("settings.connection_manage"), admin_settings_inference_connections_path,
+      class: "mt-3 inline-flex text-sm font-semibold text-[var(--accent)] underline underline-offset-4" %>
+  </section>
+<% end %>
+
+<section class="mb-10">
+  <h2 class="app-section-title mb-5"><span class="app-panel-icon"><%= ui_icon("server") %></span><%= t("settings.model_deployments") %></h2>
+  <div class="grid gap-5 lg:grid-cols-2">
+    <% @models.each do |model| %>
+      <% deployed = model.active_deployment %>
+      <% connection = deployed&.inference_connection %>
+      <% connection_field_id = "model_#{model.id}_inference_connection_id" %>
+      <% model_field_id = "model_#{model.id}_remote_model_identifier" %>
+      <div class="app-model-card <%= model.active? ? 'app-model-card--enabled' : 'app-model-card--disabled' %>" data-model-id="<%= model.id %>">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div class="min-w-0">
+            <h3 class="font-semibold"><%= model.display_name %></h3>
+            <p class="mt-1 break-all text-xs text-[var(--muted)]"><%= model.model_key %></p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="app-model-status <%= model.active? ? 'app-model-status--enabled' : 'app-model-status--disabled' %>">
+              <%= t(model.active? ? "common.enabled" : "common.disabled") %>
+            </span>
+            <%= button_to(model.active? ? t("settings.disable_model") : t("settings.enable_model"),
+              admin_settings_translation_model_path(model), method: :patch,
+              params: { active: model.active? ? "0" : "1" },
+              class: "app-model-toggle #{model.active? ? 'app-model-toggle--disable' : 'app-model-toggle--enable'}") %>
+          </div>
+        </div>
+        <p class="mt-3 text-sm <%= connection&.enabled? ? 'text-[var(--success)]' : 'text-[var(--warn)]' %>"><%= connection ? t("settings.active_connection", name: connection.name, provider: connection.provider.humanize) : t("settings.no_deployment") %></p>
+        <% if connection %>
+          <%= link_to t("settings.connection_edit_current"), edit_admin_settings_inference_connection_path(connection),
+            class: "mt-2 inline-flex text-sm font-medium text-[var(--accent)] underline underline-offset-4" %>
+        <% end %>
+
+        <div data-controller="deployment-form"
+          data-action="change->deployment-form#refresh input->deployment-form#refresh"
+          data-deployment-form-has-active-value="<%= deployed.present? %>"
+          data-deployment-form-active-connection-value="<%= deployed&.inference_connection_id %>"
+          data-deployment-form-active-identifier-value="<%= deployed&.remote_model_identifier %>"
+          data-deployment-form-activate-label-value="<%= t('settings.activate_deployment') %>"
+          data-deployment-form-update-label-value="<%= t('settings.update_deployment') %>"
+          data-deployment-form-current-label-value="<%= t('settings.deployment_active') %>">
+        <%= form_with url: admin_settings_model_deployments_path, method: :post, class: "mt-4 space-y-3" do |f| %>
+          <%= f.hidden_field :translation_model_id, value: model.id %>
+          <div>
+            <%= f.label :inference_connection_id, t("common.connection"), for: connection_field_id,
+              class: "mb-1 block text-xs font-medium text-[var(--muted)]" %>
+            <% if enabled_connections.any? %>
+              <%= f.select :inference_connection_id,
+                options_from_collection_for_select(enabled_connections, :id, :name, connection&.enabled? ? connection.id : nil),
+                { prompt: t("common.select_connection") },
+                id: connection_field_id, required: true,
+                data: { deployment_form_target: "connection" },
+                class: "w-full rounded-lg border border-[var(--border)] bg-[var(--input)] p-3 text-sm" %>
+              <% if connection && !connection.enabled? %>
+                <p class="mt-2 text-xs text-[var(--warn)]"><%= t("settings.connection_disabled_notice") %></p>
+              <% end %>
+            <% else %>
+              <%= f.select :inference_connection_id, [],
+                { prompt: t("settings.connection_unavailable_option") },
+                id: connection_field_id, disabled: true,
+                data: { deployment_form_target: "connection" },
+                class: "w-full rounded-lg border border-[var(--border)] bg-[var(--input)] p-3 text-sm opacity-60" %>
+              <p class="mt-2 text-xs text-[var(--warn)]"><%= t("settings.connection_unavailable") %></p>
+            <% end %>
+            <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+              <%= link_to t("settings.connection_create_for_model"), new_admin_settings_inference_connection_path,
+                class: "text-[var(--accent)] underline underline-offset-4" %>
+              <%= link_to t("settings.connection_manage"), admin_settings_inference_connections_path,
+                class: "text-[var(--muted)] underline underline-offset-4" %>
+            </div>
+            <% if enabled_connections.any? %>
+              <p class="mt-2 text-xs text-[var(--muted)]"><%= t("settings.connection_help") %></p>
+            <% end %>
+          </div>
+          <div>
+            <%= f.label :remote_model_identifier, t("settings.remote_model_key"), for: model_field_id,
+              class: "mb-1 block text-xs text-[var(--muted)]" %>
+            <%= f.text_field :remote_model_identifier, value: deployed&.remote_model_identifier || model.model_key,
+              id: model_field_id, maxlength: 120, required: true,
+              data: { deployment_form_target: "identifier" },
+              class: "w-full rounded-lg border border-[var(--border)] bg-[var(--input)] p-3 text-sm" %>
+          </div>
+          <% deployment_submit_label = deployed.present? && connection&.enabled? ? t("settings.deployment_active") : t("settings.activate_deployment") %>
+          <%= f.submit deployment_submit_label, disabled: enabled_connections.empty? || (deployed.present? && connection&.enabled?),
+            data: { deployment_form_target: "submit" }, class: "app-deployment-submit" %>
+          <% if deployed.present? %>
+            <p class="text-xs text-[var(--muted)]"><%= t("settings.deployment_change_hint") %></p>
+          <% end %>
+        <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section class="mb-10">
+  <div class="mb-5 flex items-center justify-between gap-3">
+    <h2 class="app-section-title"><span class="app-panel-icon"><%= ui_icon("plug") %></span><%= t("settings.connections") %></h2>
+    <%= link_to t("common.manage_all"), admin_settings_inference_connections_path, class: "text-sm text-[var(--accent)]" %>
+  </div>
+  <div class="space-y-4">
+    <% @connections.each do |conn| %>
+      <div class="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] p-5">
+        <div>
+          <p class="font-semibold"><%= conn.name %> <span class="ml-2 text-xs text-[var(--muted)]">(<%= conn.provider.humanize %>)</span></p>
+          <p class="mt-1 text-sm text-[var(--muted)]"><%= conn.adapter_key %> · <%= conn.enabled? ? t('common.enabled') : t('common.disabled') %> · <%= t('settings.token') %>: <%= conn.token_configured? ? t('common.configured') : t('common.missing') %></p>
+          <p class="mt-1 text-xs text-[var(--muted)]"><%= t("settings.last_probe") %>:
+            <span data-probe-status-id="<%= conn.id %>"><%= conn.last_check_status || t("common.not_checked") %></span>
+            <time data-probe-time-id="<%= conn.id %>"><%= conn.last_checked_at && l(conn.last_checked_at, format: :short) %></time>
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <%= link_to t("common.edit"), edit_admin_settings_inference_connection_path(conn),
+            class: "rounded-lg border border-[var(--border)] px-4 py-2 text-sm" %>
+          <% if conn.enabled? && conn.adapter_key == "translation_gateway_v1" %>
+            <%= button_to check_connection_admin_settings_inference_connection_path(conn), method: :post,
+              form: { data: { turbo: false } },
+              class: "app-btn-outline app-probe-trigger",
+              data: { action: "click->connection-probe#open", connection_probe_id_param: conn.id,
+                connection_probe_name_param: conn.name } do %>
+              <%= ui_icon("search", size: 16) %>
+              <%= t("settings.check_catalog") %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <% if @connections.empty? %>
+      <div class="rounded-xl border border-[var(--border-soft)] p-6">
+        <p class="text-sm text-[var(--muted)]"><%= t("settings.empty_connections") %></p>
+        <%= link_to t("settings.connection_setup_action"), new_admin_settings_inference_connection_path,
+          class: "mt-3 inline-flex text-sm font-medium text-[var(--accent)] underline underline-offset-4" %>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section>
+  <h2 class="app-section-title mb-5"><span class="app-panel-icon"><%= ui_icon("history") %></span><%= t("settings.audit") %></h2>
+  <% if @events.any? %>
+    <div class="divide-y divide-[var(--border-soft)] rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-5">
+      <%= render partial: "admin/settings/audit_event", collection: @events, as: :event %>
+    </div>
+  <% else %>
+    <p class="text-sm text-[var(--muted)]"><%= t("settings.audit_empty") %></p>
+  <% end %>
+</section>
+
+<dialog class="app-probe-dialog" data-connection-probe-target="dialog"
+  data-action="cancel->connection-probe#cancel" aria-labelledby="probe-dialog-title"
+  aria-describedby="probe-dialog-status">
+  <header class="app-probe-header">
+    <span class="app-panel-icon"><%= ui_icon("search", size: 20) %></span>
+    <div class="min-w-0 flex-1">
+      <h2 id="probe-dialog-title" class="text-lg font-bold"><%= t("settings.probe_modal_title") %></h2>
+      <p class="mt-1 break-words text-sm text-[var(--muted)]" data-connection-probe-target="connection"></p>
+    </div>
+    <button type="button" class="app-probe-dismiss" data-connection-probe-target="dismiss"
+      data-action="click->connection-probe#close"
+      aria-label="<%= t('settings.probe_modal_close') %>">×</button>
+  </header>
+
+  <div class="app-probe-body">
+    <div data-connection-probe-target="warning" class="app-probe-warning">
+      <%= ui_icon("alert-circle", size: 20, class_name: "shrink-0") %>
+      <p id="probe-dialog-description"><%= t("settings.probe_modal_warning") %></p>
+    </div>
+
+    <div data-connection-probe-target="loading" class="app-probe-loading" hidden>
+      <span class="app-probe-spinner" aria-hidden="true"></span>
+      <p class="text-sm text-[var(--muted)]"><%= t("settings.probe_modal_wait") %></p>
+    </div>
+
+    <section data-connection-probe-target="result" class="app-probe-result" hidden>
+      <h3 class="mb-3 font-semibold" data-connection-probe-target="resultTitle"></h3>
+      <div class="app-probe-meta">
+        <span><%= t("settings.probe_modal_status") %></span>
+        <strong data-connection-probe-target="status">—</strong>
+        <span><%= t("settings.probe_modal_checked_at") %></span>
+        <time data-connection-probe-target="checkedAt">—</time>
+      </div>
+      <p data-connection-probe-target="catalogInfo" class="mt-3 text-sm text-[var(--muted)]"></p>
+      <div data-connection-probe-target="modelsSection" class="mt-4" hidden>
+        <h4 class="mb-2 text-sm font-semibold"><%= t("settings.probe_modal_models") %></h4>
+        <ul data-connection-probe-target="models" class="app-probe-model-list"></ul>
+        <p class="mt-2 text-xs text-[var(--muted)]"><%= t("settings.probe_modal_more") %></p>
+      </div>
+    </section>
+
+    <p id="probe-dialog-status" class="app-probe-feedback" data-connection-probe-target="message" role="status" aria-live="polite"></p>
+  </div>
+
+  <footer class="app-probe-actions">
+    <%= link_to t("settings.probe_modal_reauthenticate"), new_reauthentication_path,
+      class: "app-btn-outline", data: { connection_probe_target: "reauth" }, hidden: true %>
+    <button type="button" class="app-btn-outline" data-connection-probe-target="close"
+      data-action="click->connection-probe#close"><%= t("settings.probe_modal_close") %></button>
+    <button type="button" class="app-btn-primary" data-connection-probe-target="start"
+      data-action="click->connection-probe#start">
+      <%= ui_icon("search", size: 16) %>
+      <%= t("settings.probe_modal_start") %>
+    </button>
+  </footer>
+</dialog>
+</div>

@@ -1,0 +1,42 @@
+<% content_for :page_title, t("settings.connections_title") %>
+<div class="app-page-heading">
+  <div>
+    <p class="app-eyebrow"><%= ui_icon("plug", size: 16) %><%= t("settings.eyebrow") %></p>
+    <h1><%= t("settings.connections_title") %></h1>
+    <p class="app-page-description"><%= t("settings.connection_help") %></p>
+  </div>
+  <%= link_to t("settings.add_connection"), new_admin_settings_inference_connection_path,
+    class: "app-btn-primary" %>
+</div>
+
+<% if @connections.empty? %>
+  <section class="rounded-xl border border-[var(--accent-border)] bg-[var(--surface)] p-6">
+    <h2 class="text-lg font-semibold"><%= t("settings.connection_setup_title") %></h2>
+    <p class="mt-2 max-w-3xl text-sm text-[var(--muted)]"><%= t("settings.connection_setup_description") %></p>
+    <%= link_to t("settings.connection_setup_action"), new_admin_settings_inference_connection_path,
+      class: "mt-4 inline-flex rounded-lg bg-[var(--action)] px-4 py-3 text-sm font-semibold text-[var(--action-text)]" %>
+  </section>
+<% else %>
+  <div class="space-y-4">
+    <% @connections.each do |conn| %>
+      <section class="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5">
+        <div class="min-w-0">
+          <p class="font-semibold"><%= conn.name %></p>
+          <p class="mt-1 text-sm text-[var(--muted)]">
+            <%= conn.provider.humanize %> · <%= conn.adapter_key %> ·
+            <%= conn.enabled? ? t("common.enabled") : t("common.disabled") %>
+          </p>
+          <p class="mt-1 break-all text-xs text-[var(--muted)]"><%= conn.base_url %></p>
+          <p class="mt-1 text-xs text-[var(--muted)]"><%= t("settings.token") %>:
+            <%= conn.token_configured? ? t("common.configured") : t("common.missing") %>
+          </p>
+        </div>
+        <%= link_to t("common.edit"), edit_admin_settings_inference_connection_path(conn),
+          class: "rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--accent)]" %>
+      </section>
+    <% end %>
+  </div>
+<% end %>
+
+<%= link_to t("settings.title"), admin_settings_inference_path,
+  class: "mt-6 inline-flex text-sm font-medium text-[var(--accent)] underline underline-offset-4" %>

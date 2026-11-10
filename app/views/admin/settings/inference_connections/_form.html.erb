@@ -1,0 +1,26 @@
+<section class="app-panel max-w-3xl"><div class="app-panel-content">
+  <div class="app-panel-heading"><span class="app-panel-icon"><%= ui_icon("plug") %></span><%= t("settings.connections") %></div>
+  <% if connection.errors.any? %><div class="mb-5 rounded-lg border border-[var(--danger-border)] p-4 text-sm text-[var(--danger)]">
+    <p class="mb-2 font-semibold"><%= t("settings.error_heading") %></p>
+    <ul><% connection.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
+  </div><% end %>
+  <%= form_with model: [:admin, :settings, connection], class: "space-y-5" do |f| %>
+    <div><%= f.label :name, t("settings.form_name"), class: "mb-2 block text-sm font-semibold" %><%= f.text_field :name, required: true, class: "w-full rounded-lg border border-[var(--border)] bg-[var(--input)] p-3" %></div>
+    <div class="grid gap-5 md:grid-cols-2">
+      <div><%= f.label :provider, t("common.provider"), class: "mb-2 block text-sm font-semibold" %>
+        <%= f.select :provider, [[t("settings.provider_modal"), "modal"], [t("settings.provider_lightning"), "lightning"], [t("settings.provider_runpod"), "runpod"], [t("settings.provider_other"), "other"]], {}, class: "w-full rounded-lg border border-[var(--border)] bg-[var(--input)] p-3" %></div>
+      <div><%= f.label :adapter_key, t("settings.api_protocol"), class: "mb-2 block text-sm font-semibold" %>
+        <%= f.select :adapter_key, [[t("settings.gateway_protocol"), "translation_gateway_v1"], [t("settings.openai_protocol"), "openai_chat_completions"]], {}, class: "w-full rounded-lg border border-[var(--border)] bg-[var(--input)] p-3" %></div>
+    </div>
+    <div><%= f.label :base_url, t("settings.https_url"), class: "mb-2 block text-sm font-semibold" %>
+      <%= f.url_field :base_url, required: true, placeholder: "https://your-gateway.example.com", class: "w-full rounded-lg border border-[var(--border)] bg-[var(--input)] p-3" %>
+      <p class="mt-2 text-xs text-[var(--muted)]"><%= t("settings.https_hint") %></p></div>
+    <div><%= f.label :api_token, t("settings.bearer_token"), class: "mb-2 block text-sm font-semibold" %>
+      <%= f.password_field :api_token, value: "", autocomplete: "new-password", placeholder: t("settings.bearer_placeholder"), class: "w-full rounded-lg border border-[var(--border)] bg-[var(--input)] p-3" %>
+      <p class="mt-2 text-xs text-[var(--muted)]"><%= t("settings.existing_token", status: connection.token_configured? ? t('common.configured') : t('common.not_configured')) %></p></div>
+    <%= f.hidden_field :auth_type, value: "bearer" %>
+    <div class="flex items-center gap-2"><%= f.check_box :enabled, class: "accent-[var(--action)]" %><%= f.label :enabled, t("settings.enable_connection") %></div>
+    <div class="flex flex-wrap items-center gap-3 border-t border-[var(--border-soft)] pt-5"><%= f.submit t("settings.save_connection"), class: "app-btn-primary cursor-pointer" %>
+      <%= link_to t("common.cancel"), admin_settings_inference_path, class: "text-[var(--subtle)]" %></div>
+  <% end %>
+</div></section>
