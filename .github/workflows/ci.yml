@@ -2,6 +2,9 @@ name: CI
 on:
   push:
   pull_request:
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-24.04
@@ -31,7 +34,13 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+      - name: Validate bilingual documentation, links and community files
+        run: python3 scripts/validate_repository_docs.py
+      - name: Check Rails autoloading
+        run: bin/rails zeitwerk:check
       - name: Prepare databases
         run: bin/rails db:prepare
       - name: Run Rails tests without GPU
         run: bin/rails test
+      - name: Build Tailwind CSS assets
+        run: bin/rails tailwindcss:build
