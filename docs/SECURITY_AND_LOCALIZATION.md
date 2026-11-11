@@ -1,5 +1,7 @@
 # Localization, themes and access controls
 
+> 🌐 Language / Ngôn ngữ: **English** | [Tiếng Việt](SECURITY_AND_LOCALIZATION.vi.md)
+
 ## UI languages
 
 The admin UI supports **English (`en`)** and **Vietnamese (`vi`)** through Rails I18n files at `config/locales/en.yml` and `config/locales/vi.yml`. This is independent of the source/target languages accepted by translation models. Locale choice is written to a signed, HTTP-only cookie (`ui_locale`), with an allowlist of `en` and `vi` and a one-year expiration. `I18n.with_locale` scopes each request to avoid cross-request leakage. The language in use when creating a translation is persisted as `translation_requests.ui_locale` so asynchronous Turbo broadcasts render their model cards in the same language. If the admin switches locale while a run is in progress, reloading the session shows the new interface locale; the in-flight broadcast continues with the request’s original locale.

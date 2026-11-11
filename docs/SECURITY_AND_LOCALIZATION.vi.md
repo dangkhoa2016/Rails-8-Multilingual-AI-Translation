@@ -1,5 +1,7 @@
 # Bản địa hóa, giao diện và phân quyền
 
+> 🌐 Language / Ngôn ngữ: [English](SECURITY_AND_LOCALIZATION.md) | **Tiếng Việt**
+
 ## Ngôn ngữ giao diện
 
 Ứng dụng hỗ trợ **tiếng Anh (`en`) và tiếng Việt (`vi`)** bằng Rails I18n trong `config/locales/en.yml` và `config/locales/vi.yml`. Đây là **ngôn ngữ giao diện**, không phải whitelist của ngôn ngữ nguồn/đích khi dịch. Người dùng có thể đổi ngôn ngữ ở thanh điều hướng kể cả trước khi đăng nhập. Hệ thống lưu lựa chọn trong cookie có chữ ký, `HttpOnly`, hạn một năm và chỉ chấp nhận `en` hoặc `vi`.
