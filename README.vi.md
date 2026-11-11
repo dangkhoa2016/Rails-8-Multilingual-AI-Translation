@@ -1,22 +1,35 @@
 # Rails 8 Multilingual AI Translation
 
+[![CI](https://github.com/dangkhoa2016/Rails-8-Multilingual-AI-Translation/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dangkhoa2016/Rails-8-Multilingual-AI-Translation/actions/workflows/ci.yml)
+![Rails](https://img.shields.io/badge/Rails-8.1-CC0000)
+![Ruby](https://img.shields.io/badge/Ruby-3.3.8-CC342D)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791)
+![Devise](https://img.shields.io/badge/Auth-Devise%205-425EAA)
+![Security](https://img.shields.io/badge/Security-Rack%3A%3AAttack%20%2B%20Pundit-4C9977)
+![Language](https://img.shields.io/badge/Docs-EN%20%2F%20VI-2B76C4)
+![License](https://img.shields.io/badge/License-MIT-blue)
+
 > 🌐 Language / Ngôn ngữ: [English](README.md) | **Tiếng Việt**
 
-[![CI](https://github.com/dangkhoa2016/Rails-8-Multilingual-AI-Translation/actions/workflows/ci.yml/badge.svg)](https://github.com/dangkhoa2016/Rails-8-Multilingual-AI-Translation/actions/workflows/ci.yml) ![Rails 8.1](https://img.shields.io/badge/Rails-8.1-red) ![Ruby 3.3](https://img.shields.io/badge/Ruby-3.3.8-red) ![MIT](https://img.shields.io/badge/License-MIT-blue)
-
-Ứng dụng Rails 8 dành cho admin dịch và so sánh kết quả từ nhiều dịch vụ AI khác nhau. [English](README.md).
+Nền tảng quản trị Rails 8 để so sánh bản dịch từ nhiều endpoint model AI triển khai độc lập. Credential được cấu hình riêng theo model; ứng dụng này không tự host model.
 
 ## Chức năng đã viết
 
 - Devise 5 + Warden xác thực admin, Pundit phân quyền, Rack::Attack và PostgreSQL/Solid Cache giới hạn truy cập; Rails 8, Tailwind CSS, Hotwire, Solid Queue.
 - Giao diện song ngữ tiếng Anh / tiếng Việt bằng Rails I18n, không giới hạn ngôn ngữ nguồn/đích của bản dịch.
-- Ba theme Sáng / Tối / Tự động; chế độ Tự động thay đổi theo theme hệ điều hành.
+- Dashboard tổng quan với thống kê chỉ đọc database và hướng dẫn cấu hình model; sidebar thu gọn, menu mobile, breadcrumb, SVG icon và giao diện Sáng / Tối / Tự động.
+- Translation Studio hỗ trợ nhập tên ngôn ngữ tự do, đổi chiều nguồn/đích, đếm ký tự Unicode, cảnh báo giới hạn theo giao thức và chọn 1–4 model. Trang kết quả có bố cục so sánh 2/4 cột, đánh dấu khác biệt theo dòng mà không gọi inference thêm.
 - Giới hạn đăng nhập bằng PostgreSQL, hết hạn phiên, vô hiệu hóa phiên khi đổi mật khẩu, xác nhận lại mật khẩu khi sửa cài đặt quan trọng và xác thực WebSocket/Turbo Streams.
 - Danh mục bốn model: Hy-MT2, Index-Translate, Gemma 4 và Qwen3.5.
 - Trang System Settings để tạo kết nối theo từng provider/endpoint/token, có thể dùng chung kết nối giữa nhiều model.
 - Bearer token được mã hóa bằng Active Record Encryption; ô token cũ không hiển thị plaintext.
 - Bảng deployment phiên bản hóa; lịch sử dịch vẫn tham chiếu deployment đã dùng.
+- Lịch sử dịch phân trang, lọc theo nhãn ngôn ngữ, UUID phiên, trạng thái và ngày. Xuất TXT, Markdown hoặc JSON chỉ chứa dữ liệu cho phép của phiên đã lưu, không gọi provider; chỉ tài khoản được phép mới đọc nội dung.
+- Bảng thuật ngữ riêng cho từng admin: cặp thuật ngữ và ghi chú được mã hóa, có thể thêm/sửa/tắt/xóa, tùy chọn áp dụng khi dịch qua OpenAI-compatible chat. Chỉ thuật ngữ khớp nội dung được lưu thành snapshot mã hóa trước dispatch; Gateway v1 chưa hỗ trợ Glossary.
+- Trung tâm trợ giúp EN/VI giải thích giới hạn ký tự, đối chiếu thuật ngữ, bảo mật snapshot, xuất dữ liệu và cách xử lý yêu cầu tính phí chưa rõ trạng thái.
+- Nghiệm thu trên ba trình duyệt thực **Chromium, Firefox và WebKit**: chuyển EN/VI giữ bản nháp, menu responsive ở 320–768 px, Glossary CRUD/XSS, CSRF và CSP nghiêm ngặt. Có workflow GitHub Actions thủ công chạy cả ba engine trên database thử nghiệm, không gọi inference. Xem [hướng dẫn kiểm thử](docs/testing.vi.md).
 - Mỗi model được gửi riêng đến đúng connection; lưu idempotency key trước HTTP POST.
+- Solid Queue đối soát định kỳ: `submitting` bị kẹt được đánh dấu uncertain mà không gửi lại POST; chỉ nối lại GET polling cho `accepted` khi chủ động bật `TRANSLATION_RECOVERY_POLLING_ENABLED=1` (GET có thể đánh thức hosting). Bộ test end-to-end CPU-only kiểm tra luồng bốn model và database PostgreSQL tạo mới.
 - Dịch bất đồng bộ qua Translation Gateway v1; hỗ trợ OpenAI-compatible chat completions khi endpoint thực sự tương thích.
 - Mỗi model có card kết quả riêng; hiển thị unsupported language, lỗi API và mock result rõ ràng.
 - Xem lịch sử/trạng thái chỉ dùng GET, không tự động phát sinh inference mới khi refresh.
@@ -47,6 +60,8 @@ Biến môi trường tham khảo trong `.env.example`. **Không đưa URL chứ
 5. Vào `/admin/translations/new`, nhập nhãn ngôn ngữ bất kỳ, văn bản, chọn 1–4 model rồi xác nhận trước khi dịch.
 6. Mở trang kết quả để so sánh bản dịch. Với Gateway v1, polling là GET; timeout POST không tạo lại yêu cầu tính phí.
 
+**Giới hạn văn bản:** Translation Gateway v1 hỗ trợ tối đa 1.000 ký tự Unicode/lượt. Studio hiển thị giới hạn đã biết của từng model và từ chối toàn bộ yêu cầu có model vượt giới hạn trước khi lưu phiên dịch hoặc xếp job inference tính phí. Những adapter khác có thể có giới hạn riêng chưa xác định. Rails vẫn giữ giới hạn an toàn 20.000 ký tự Unicode, nhưng không tự chia văn bản dài thành các đoạn để dịch.
+
 **Lưu ý:** Chọn bốn model có thể phát sinh bốn lần model-run tính phí. `Check catalog` không gửi POST inference nhưng vẫn có thể đánh thức hosting. Model báo `UNSUPPORTED_LANGUAGE_PAIR` không có nghĩa hệ thống có thể đoán đúng mọi ngôn ngữ được hỗ trợ.
 
 ### Chính sách bảo mật
@@ -67,11 +82,24 @@ RAILS_ENV=test bin/rails db:prepare
 bin/rails test
 ```
 
-CI sử dụng fixture và mock, không gọi GPU. Đã chạy Minitest trên Ruby 3.3.8, Rails 8.1.4.1 và PostgreSQL 16: **28 tests, 205 assertions, 0 failures, 0 errors**. Migration, kiểm tra Zeitwerk và build Tailwind CSS cũng thành công. Chưa nghiệm thu trực tiếp với các endpoint inference bên ngoài hoặc kiểm thử trình duyệt đầy đủ.
+CI sử dụng fixture và mock, không gọi GPU. Đã chạy Minitest trên Ruby 3.3.8, Rails 8.1.4.1 và PostgreSQL 16: **114 tests, 1490 assertions, 0 failures, 0 errors**. Migration, kiểm tra Zeitwerk và build Tailwind CSS cũng thành công. Đã kiểm thử Chromium, Firefox và WebKit trên preview với database/khóa mới; chưa nghiệm thu inference trực tiếp trên provider bên ngoài hoặc penetration test môi trường production.
 
 ### Phạm vi còn lại
 
 Tối ưu group submit `/v1/jobs/benchmarks`, giao diện đối soát chuyên sâu cho các dispatch chưa rõ trạng thái, quản lý attempts và kiểm thử integration với các hosting khác nhau. Boot, migration và Minitest đã được kiểm chứng; trước khi đưa lên production vẫn cần nghiệm thu endpoint thật, kiểm tra bảo mật độc lập và quy trình vận hành.
+
+## Tài liệu
+
+Các hướng dẫn sử dụng quy ước tài liệu tiếng Anh/tiếng Việt của repository, với link chuyển ngôn ngữ ở mỗi trang Markdown:
+
+- [Chỉ mục tài liệu](docs/README.vi.md) — truy cập toàn bộ hướng dẫn kỹ thuật.
+- [Kiến trúc](docs/architecture.vi.md) — Rails, PostgreSQL, queue, adapter và ranh giới tin cậy.
+- [Cấu hình](docs/configuration.vi.md) — local setup, database URLs và provider connections.
+- [Luồng dịch](docs/translation-workflow.vi.md) và [Tích hợp API](docs/api.vi.md) — dispatch, polling và idempotency.
+- [Bảo mật](docs/security.vi.md) và [Vận hành](docs/operations.vi.md) — xác thực, credential và biện pháp production.
+- [Kiểm thử](docs/testing.vi.md), [Giới hạn](docs/limitations.vi.md), [Xử lý sự cố](docs/troubleshooting.vi.md) và [Trạng thái triển khai](docs/IMPLEMENTATION_STATUS.vi.md).
+
+Thông tin cộng đồng: [Changelog](CHANGELOG.vi.md) · [Đóng góp](.github/CONTRIBUTING.vi.md) · [Chính sách bảo mật](.github/SECURITY.vi.md) · [Hỗ trợ](.github/SUPPORT.vi.md).
 
 Repository inference tham chiếu: [Multilingual Translation AI Inference](https://github.com/dangkhoa2016/Multilingual-Translation-AI-Inference). Rails không tải model GGUF và không chạy GPU.
 
