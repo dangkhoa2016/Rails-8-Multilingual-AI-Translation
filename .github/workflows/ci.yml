@@ -1,0 +1,37 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/multilingual_translation_workspace_test
+      QUEUE_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/multilingual_translation_workspace_test_queue
+      CACHE_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/multilingual_translation_workspace_test_cache
+      AR_ENCRYPTION_PRIMARY_KEY: ci-primary-encryption-key-32-bytes!
+      AR_ENCRYPTION_DETERMINISTIC_KEY: ci-deterministic-key-32-bytes!!
+      AR_ENCRYPTION_KEY_DERIVATION_SALT: ci-derivation-salt-32-bytes!!!!!!
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: Prepare databases
+        run: bin/rails db:prepare
+      - name: Run Rails tests without GPU
+        run: bin/rails test
