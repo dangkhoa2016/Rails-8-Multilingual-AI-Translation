@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report / Báo cáo bảo mật
+    url: https://github.com/dangkhoa2016/Rails-8-Multilingual-AI-Translation/security/advisories/new
+    about: Report vulnerabilities privately if enabled; otherwise use i.am@dangkhoa.dev / Báo cáo riêng tư
+  - name: Documentation / Tài liệu
+    url: https://github.com/dangkhoa2016/Rails-8-Multilingual-AI-Translation/blob/main/docs/README.md
+    about: Read the bilingual documentation / Xem tài liệu song ngữ

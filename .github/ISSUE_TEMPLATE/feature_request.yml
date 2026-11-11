@@ -1,0 +1,21 @@
+name: Feature request / Đề xuất tính năng
+description: Propose an improvement / Đề xuất cải tiến
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Vấn đề cần giải quyết
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior / Giải pháp đề xuất
+    validations:
+      required: true
+  - type: textarea
+    id: security_cost
+    attributes:
+      label: Security and inference cost / Bảo mật và chi phí inference

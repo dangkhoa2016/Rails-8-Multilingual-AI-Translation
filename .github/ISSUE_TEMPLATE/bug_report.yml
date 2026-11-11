@@ -1,0 +1,40 @@
+name: Bug report / Báo lỗi
+description: Report a reproducible defect / Báo lỗi có thể tái lập
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include credentials, sensitive translation content or exploit details.
+        Không gửi credential, nội dung dịch nhạy cảm hoặc chi tiết khai thác.
+  - type: input
+    id: revision
+    attributes:
+      label: Git commit SHA
+      description: Exact source revision / Commit chính xác
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment / Môi trường
+      description: Ruby, Rails, PostgreSQL, OS, hosting
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps / Các bước tái lập
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual result / Kết quả mong đợi và thực tế
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Redacted logs / Log đã ẩn thông tin nhạy cảm

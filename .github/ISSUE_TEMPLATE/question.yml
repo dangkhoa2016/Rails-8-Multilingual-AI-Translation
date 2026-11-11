@@ -1,0 +1,20 @@
+name: Question / Câu hỏi
+description: Ask a usage or integration question / Hỏi cách sử dụng hoặc tích hợp
+title: "[Question] "
+labels: ["question"]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Component / Thành phần
+      placeholder: Authentication, inference connection, jobs, translations
+  - type: textarea
+    id: question
+    attributes:
+      label: Question / Nội dung câu hỏi
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context without secrets / Bối cảnh không chứa secret
